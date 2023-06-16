@@ -28,8 +28,7 @@ const afterwareLink = new ApolloLink((operation, forward) => {
 });
 
 export const { getClient } = registerApolloClient(() => {
-
-    new ApolloClient({
+  new ApolloClient({
     link: ApolloLink.from([
       setContext(() => {
         const authToken = localStorage.getItem(AUTH_TOKEN_KEY);
@@ -47,5 +46,6 @@ export const { getClient } = registerApolloClient(() => {
       httpLink,
     ]),
     cache: new InMemoryCache(),
+    connectToDevTools: true,
   });
 });

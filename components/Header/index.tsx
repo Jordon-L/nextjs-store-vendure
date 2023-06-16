@@ -1,10 +1,11 @@
+
 import menu from "@/components/images/menu-outline.svg";
 import search from "@/components/images/search-outline.svg";
 import bag from "@/components/images/bag-outline.svg";
 import Logo from "@/components/images/github.svg";
 import Image from "next/image";
 
-export function Header() {
+function Header() {
   return (
     <header className="border-b border-zinc-700 px-6 pb-2 pt-4 lg:pt-8 lg:pb-6">
       <nav className="center">

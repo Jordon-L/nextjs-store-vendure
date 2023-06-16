@@ -1,42 +1,34 @@
 "use client";
 
 export const dynamic = "force-dynamic";
-
-import Image from "next/image";
-import Header from "../components/Header";
-import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
+import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { gql } from "@apollo/client";
+import ProductCard from "@/components/ProductCard";
+import {type ProductDetails} from "@/lib/types/Products.type";
+import { isTemplateSpan } from "typescript";
 
-const query = gql`query {
-  search(
-    input: { take: 8, groupByProduct: true, sort: { price: ASC } }
-  ) {
-    items {
-      productId,
-      productName
-      inStock,
-      price{
-        __typename
-        ... on SinglePrice {
-          value
-        }
-        ... on PriceRange {
-          min,
-          max,
-        }
-
+const query = gql`
+  query GetProducts {
+    search(input: { take: 8, groupByProduct: true, sort: { price: ASC } }) {
+      items {
+        ...ProductDetails
       }
     }
   }
-}`
+`;
 
 export default function Home() {
-  const { data } = useSuspenseQuery(query);
+  const { loading, error, data } = useQuery(query);
+  if (loading) return null;
+  if (error) return `Error! ${error}`;
 
   return (
     <div className="center px-6 md:px-12 p-4">
       <span className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-        <div className="bg-gray-500 aspect-square">{data.search.items.productName}</div>
+        {data.search.items.map((item:ProductDetails) => (
+          <ProductCard key={item.productId} item={{...item}} />
+        ))}
+        
       </span>
     </div>
   );

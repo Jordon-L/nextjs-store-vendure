@@ -6,7 +6,9 @@ import {
   ApolloLink,
   HttpLink,
   SuspenseCache,
+  gql,
 } from "@apollo/client";
+import { createFragmentRegistry } from "@apollo/client/cache";
 import {
   ApolloNextAppProvider,
   NextSSRInMemoryCache,
@@ -25,7 +27,26 @@ function makeClient() {
 
   return new ApolloClient({
     // use the `NextSSRInMemoryCache`, not the normal `InMemoryCache`
-    cache: new NextSSRInMemoryCache(),
+    connectToDevTools: true,
+    cache: new NextSSRInMemoryCache({
+      fragments: createFragmentRegistry(gql`
+        fragment ProductDetails on SearchResult {
+          productId
+          slug
+          productName
+          productAsset {
+            preview
+          }
+          inStock
+          price {
+            ... on PriceRange {
+              min
+              max
+            }
+          }
+        }
+      `),
+    }),
     link:
       typeof window === "undefined"
         ? ApolloLink.from([
