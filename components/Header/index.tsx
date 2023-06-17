@@ -1,8 +1,3 @@
-
-import menu from "@/components/images/menu-outline.svg";
-import search from "@/components/images/search-outline.svg";
-import bag from "@/components/images/bag-outline.svg";
-import Logo from "@/components/images/github.svg";
 import Image from "next/image";
 
 function Header() {
@@ -11,13 +6,25 @@ function Header() {
       <nav className="center">
         <div className="w-full h-full lg:hidden">
           <button>
-            <Image className=" w-6 h-6 object-contain" src={menu} alt="menu" />
+            <Image
+              className=" w-8 h-8 object-contain"
+              src="/menu-outline.svg"
+              width={32}
+              height={32}
+              alt="menu"
+            />
           </button>
         </div>
 
         <div className="flex logo w-12 h-12 justify-center lg:justify-normal">
           <a className="flex items-center" href="/">
-            <Image className="w-8 h-8 object-contain" src={Logo} alt="Logo" />
+            <Image
+              className="w-8 h-8 object-contain"
+              src="/github.svg"
+              width={32}
+              height={32}
+              alt="Logo"
+            />
           </a>
         </div>
 
@@ -36,14 +43,22 @@ function Header() {
         <div className="flex w-full h-full justify-end">
           <a className="mr-12" href="/search">
             <Image
-              className=" w-6 h-6 object-contain"
-              src={search}
+              className=" w-8 h-8 object-contain"
+              src="/search-outline.svg"
+              width={32}
+              height={32}
               alt="search"
             />
           </a>
 
           <a className="" href="/cart">
-            <Image className="w-6 h-6 object-contain" src={bag} alt="cart" />
+            <Image
+              className="w-8 h-8 object-contain"
+              src="/bag-outline.svg"
+              width={32}
+              height={32}
+              alt="cart"
+            />
 
             <div className="search" />
             <div />

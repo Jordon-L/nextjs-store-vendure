@@ -1,5 +1,6 @@
 import "./globals.css";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { ApolloWrapper } from "./ApolloWrapper";
 import { Suspense } from "react";
 import { Inter } from "next/font/google";
@@ -20,6 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Header />
         <ApolloWrapper>{children}</ApolloWrapper>
+        <Footer />
       </body>
     </html>
   );
