@@ -16,3 +16,16 @@ export interface ProductDetails {
   inStock: boolean,
   price: PriceRange,
 }
+
+export interface ParentCollection{
+  id: number,
+  slug: string,
+  name: string,
+}
+export interface CollectionDetails{
+  id: number,
+  name: string,
+  slug: string,
+  parent: ParentCollection,
+  featuredAsset: Asset
+}
