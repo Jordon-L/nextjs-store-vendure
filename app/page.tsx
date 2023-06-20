@@ -57,8 +57,9 @@ export default function Home() {
           <Image
             className="object-cover max-h-[550px]"
             src="/jo-szczepanska-9OKGEVJiTKk-unsplash.jpg"
-            width={1600}
-            height={550}
+            width={1920}
+            height={1280}
+            priority={true}
             alt="Office Supplies Banner"
           />
           <span className="text-5xl w-full h-full md:absolute md:top-0 md:bg-black/[0.3]">
@@ -67,7 +68,7 @@ export default function Home() {
                 Welcome to Office Llama
               </p>
               <div className="justify-center flex p-4 text-xl">
-                <Link href="/shop" className="bg-amber-800 text-white w-fit font-bold uppercase tracking-widest p-4 rounded-full">Shop All</Link>
+                <Link href="/collections/all" className="bg-amber-800 text-white w-fit font-bold uppercase tracking-widest p-4 rounded-full">Shop All</Link>
               </div>
             </div>
           </span>

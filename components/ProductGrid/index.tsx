@@ -10,8 +10,16 @@ import Image from "next/image";
 import { CollectionDetails, ProductDetails } from "@/lib/types/Products.type";
 
 const query = gql`
-  query GetProducts {
-    search(input: {groupByProduct: true, sort: { price: ASC } }) {
+  query GetProducts($collectionSlug: String!) {
+    search(
+      input: {
+        take:12,
+        skip:0,
+        groupByProduct: true
+        collectionSlug: $collectionSlug
+        sort: { price: ASC }
+      }
+    ) {
       items {
         ...ProductDetails
       }
@@ -19,14 +27,17 @@ const query = gql`
   }
 `;
 
-export default function ProductGrid() {
-  const products = useQuery(query);
-
-  const errors = products.error
-  const loading = products.error
+export default function ProductGrid(props: { slug: string }) {
+  let slug = props.slug;
+  if (props.slug === "all") {
+    slug = "";
+  }
+  const products = useQuery(query, { variables: { collectionSlug: slug } });
+  const errors = products.error;
+  const loading = products.loading;
 
   if (loading) return <section>Loading</section>;
-  if (errors) return <section>Error</section>;//`Error! ${errors}`;
+  if (errors) return <section>Error</section>; //`Error! ${errors}`;
 
   return (
     <section className="w-full">
@@ -41,8 +52,6 @@ export default function ProductGrid() {
       </span>
       <div className="flex flex-row items-start">
         <div className="bg-white w-1/5 shrink-0 mr-6 flex flex-col">
-          <Accordion title="Product Type">asds</Accordion>
-          <Accordion title="Price Range">asds</Accordion>
           <Accordion title="Availability">asds</Accordion>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

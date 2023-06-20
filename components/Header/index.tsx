@@ -32,7 +32,7 @@ function Header() {
           <a href="/" className="hover:text-gray-700 hover:no-underline">
             Home
           </a>
-          <a href="/shop" className="hover:text-gray-700 hover:no-underline">
+          <a href="/collections/all" className="hover:text-gray-700 hover:no-underline">
             Shop
           </a>
           <a href="/contact" className="hover:text-gray-700 hover:no-underline">
