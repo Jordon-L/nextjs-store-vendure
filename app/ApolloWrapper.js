@@ -45,6 +45,28 @@ function makeClient() {
             }
           }
         }
+        fragment Variant on ProductVariant {
+          id
+          name
+          options {
+            code
+            name
+          }
+          price
+          priceWithTax
+          sku
+        }
+        fragment Asset on Asset {
+          id
+          width
+          height
+          name
+          preview
+          focalPoint {
+            x
+            y
+          }
+        }
       `),
     }),
     link:

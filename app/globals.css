@@ -14,4 +14,11 @@ html {
   .sidebar {
     @apply flex w-full justify-between p-4;
   }
+
+  .buttonHover:hover {
+    
+    box-shadow: 0 4px 15px rgba(34,34,34,.1);
+    transition: transform 200ms cubic-bezier(.17,.67,.83,.67);
+    transform: scaleX(1.015) scaleY(1.03) perspective(1px);
+  }
 }

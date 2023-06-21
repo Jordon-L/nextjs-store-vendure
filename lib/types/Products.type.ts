@@ -1,31 +1,37 @@
 export interface Asset {
+  id: number;
   height: number;
   width: number;
   preview: string;
-  name?: string;
+  name: string;
+  focalPoint: focalPoint
+}
+export interface focalPoint {
+  x: number;
+  y: number;
 }
 export interface PriceRange {
-  min: number,
-  max: number,
+  min: number;
+  max: number;
 }
 export interface ProductDetails {
-  productId: number
-  slug: string,
-  productName: string,
-  productAsset: Asset,
-  inStock: boolean,
-  price: PriceRange,
+  productId: number;
+  slug: string;
+  productName: string;
+  productAsset: Asset;
+  inStock: boolean;
+  price: PriceRange;
 }
 
-export interface ParentCollection{
-  id: number,
-  slug: string,
-  name: string,
+export interface ParentCollection {
+  id: number;
+  slug: string;
+  name: string;
 }
-export interface CollectionDetails{
-  id: number,
-  name: string,
-  slug: string,
-  parent: ParentCollection,
-  featuredAsset: Asset
+export interface CollectionDetails {
+  id: number;
+  name: string;
+  slug: string;
+  parent: ParentCollection;
+  featuredAsset: Asset;
 }

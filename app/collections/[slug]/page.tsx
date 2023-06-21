@@ -12,14 +12,11 @@ import Link from "next/link";
 import ProductGrid from "@/components/ProductGrid";
 
 
-
-export default function Page({ params }: { 
-  params: { slug: string } 
-}) {
+export default function Page({ params }: { params: { slug: string } }) {
   return (
     <div>
       <div className="center flex-col p-6">
-        <ProductGrid slug={params.slug}/>
+        <ProductGrid slug={params.slug} />
       </div>
     </div>
   );
