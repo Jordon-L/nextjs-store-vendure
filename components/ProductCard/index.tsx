@@ -1,4 +1,3 @@
-import { InMemoryCache, useFragment, gql } from "@apollo/client";
 import { ProductDetails } from "@/lib/types/Products.type";
 import { formatPrice } from "@/lib/utils/FormatPrice";
 import Image from "next/image";
@@ -10,7 +9,7 @@ export function ProductCard(props: { key: number; item: ProductDetails }) {
       <Link href={`/products/${props.item.slug}`}>
         <Image
           className="object-cover aspect-square"
-          src={props.item.productAsset.preview}
+          src={`${props.item.productAsset.preview}?w=350&h=350`}
           width={350}
           height={350}
           alt={props.item.productName}

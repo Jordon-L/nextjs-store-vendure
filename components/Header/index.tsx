@@ -28,14 +28,14 @@ function Header() {
           </a>
         </div>
 
-        <nav className="hidden lg:flex text-gray-500 uppercase text-bold space-x-6 px-12">
-          <a href="/" className="hover:text-gray-700 hover:no-underline">
+        <nav className="hidden lg:flex text-gray-500 uppercase text-bold px-12">
+          <a href="/" className="hover:text-gray-700 hover:no-underline mx-6">
             Home
           </a>
-          <a href="/collections/all" className="hover:text-gray-700 hover:no-underline">
+          <a href="/collections/all" className="hover:text-gray-700 hover:no-underline mx-6">
             Shop
           </a>
-          <a href="/contact" className="hover:text-gray-700 hover:no-underline">
+          <a href="/contact" className="hover:text-gray-700 hover:no-underline mx-6">
             Contact
           </a>
         </nav>

@@ -41,16 +41,14 @@ export default function Page({ params }: { params: { slug: string } }) {
   });
   const errors = productDetails.error;
   const loading = productDetails.loading;
-  if (loading) return null;
+  if (loading) return <div className="h-screen"></div>;
   if (errors) return `Error! ${errors}`;
 
   let collection = productDetails.data?.product?.collections;
   let breadcrumbs = collection[collection.length - 1].breadcrumbs;
   let product = productDetails.data?.product;
   let selected = product.variants[0];
-  let focalPoint = product.assets.focalPoint;
 
-  console.log(selected);
   return (
     <div className="center flex-col p-6">
       <div>

@@ -13,8 +13,8 @@ const query = gql`
   query GetProducts($collectionSlug: String!) {
     search(
       input: {
-        take:12,
-        skip:0,
+        take: 12
+        skip: 0
         groupByProduct: true
         collectionSlug: $collectionSlug
         sort: { price: ASC }
@@ -36,8 +36,8 @@ export default function ProductGrid(props: { slug: string }) {
   const errors = products.error;
   const loading = products.loading;
 
-  if (loading) return <section>Loading</section>;
-  if (errors) return <section>Error</section>; //`Error! ${errors}`;
+  if (loading) return <div className="h-screen"></div>;
+  if (errors) return <div>Error</div>; //`Error! ${errors}`;
 
   return (
     <section className="w-full">

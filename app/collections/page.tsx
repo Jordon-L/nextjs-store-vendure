@@ -27,13 +27,13 @@ const collectionQuery = gql`
   }
 `;
 
-export default function Home() {
+export default function Collections() {
   const collections = useQuery(collectionQuery);
 
   const errors = collections.error;
-  const loading = collections.error;
+  const loading = collections.loading;
 
-  if (loading) return null;
+  if (loading) return <div className="h-screen"></div>;
   if (errors) return `Error! ${errors}`;
   return (
     <div>
