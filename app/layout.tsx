@@ -2,7 +2,6 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ApolloWrapper } from "./ApolloWrapper";
-import { Suspense } from "react";
 import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 

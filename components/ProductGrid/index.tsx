@@ -3,15 +3,17 @@
 export const dynamic = "force-dynamic";
 import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { gql } from "@apollo/client";
-import ProductCard from "@/components/ProductCard";
+import { ProductCard, Skeleton } from "@/components/ProductCard";
 import Accordion from "@/components/Accordion";
 import { ProductDetails } from "@/lib/types/Products.type";
 
+const numOfItems = 12;
+
 const query = gql`
-  query GetProducts($collectionSlug: String!) {
+  query GetProducts($collectionSlug: String!, $numOfItems: Int!) {
     search(
       input: {
-        take: 12
+        take: $numOfItems
         skip: 0
         groupByProduct: true
         collectionSlug: $collectionSlug
@@ -30,11 +32,36 @@ export default function ProductGrid(props: { slug: string }) {
   if (props.slug === "all") {
     slug = "";
   }
-  const products = useQuery(query, { variables: { collectionSlug: slug } });
+  const products = useQuery(query, {
+    variables: { collectionSlug: slug, numOfItems: numOfItems },
+  });
   const errors = products.error;
   const loading = products.loading;
 
-  if (loading) return <div className="h-screen"></div>;
+  if (loading)
+    return (
+      <section className="w-full">
+        <span className="flex justify-end mb-6">
+          <select className="p-2" name="sort">
+            <option value="best-seller">Best Seller</option>
+            <option value="price-low-high">Price: Low to High</option>
+            <option value="price-high-low">Price: High to Low</option>
+            <option value="date-new-old">Date: Old to New</option>
+            <option value="date-old-new">Date: Old to New</option>
+          </select>
+        </span>
+        <div className="flex flex-row items-start">
+          <div className="bg-white w-1/5 shrink-0 mr-6 flex flex-col">
+            <Accordion title="Availability">asds</Accordion>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {[...new Array(numOfItems)].map((index: number) => (
+              <Skeleton key={index} />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
   if (errors) return <div>Error</div>; //`Error! ${errors}`;
 
   return (

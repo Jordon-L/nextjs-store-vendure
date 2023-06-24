@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import FeaturedGrid from "@/components/FeaturedGrid";
 import CollectionGrid from "@/components/CollectionGrid";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -27,6 +27,7 @@ export default function Home() {
               <Link
                 href="/collections/all"
                 className="buttonHover bg-black text-white w-fit font-bold uppercase tracking-widest p-4 px-6 rounded-full"
+                prefetch={false}
               >
                 Shop All
               </Link>
@@ -36,15 +37,11 @@ export default function Home() {
       </section>
 
       <section className="pt-8 py-4 w-full">
-        <h2 className="text-2xl mb-4 font-semibold">Shop by Collection</h2>
         <CollectionGrid />
       </section>
 
       <section className="py-4 w-full">
-        <h2 className="text-2xl mb-4 font-semibold">Featured</h2>
-        <div className="flex flex-row items-start">
-          <FeaturedGrid />
-        </div>
+        <FeaturedGrid />
       </section>
     </div>
   );
