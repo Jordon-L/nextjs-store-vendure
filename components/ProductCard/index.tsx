@@ -13,6 +13,8 @@ export function ProductCard(props: { key: number; item: ProductDetails }) {
           width={350}
           height={350}
           alt={props.item.productName}
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mOc+R8AAjcBmvywMWoAAAAASUVORK5CYII="
         />
       </Link>
       <p>{props.item.productName}</p>

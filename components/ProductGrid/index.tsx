@@ -5,9 +5,7 @@ import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { gql } from "@apollo/client";
 import ProductCard from "@/components/ProductCard";
 import Accordion from "@/components/Accordion";
-import Collection from "@/components/Collection";
-import Image from "next/image";
-import { CollectionDetails, ProductDetails } from "@/lib/types/Products.type";
+import { ProductDetails } from "@/lib/types/Products.type";
 
 const query = gql`
   query GetProducts($collectionSlug: String!) {

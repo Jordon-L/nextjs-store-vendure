@@ -12,6 +12,7 @@ function Header() {
               width={32}
               height={32}
               alt="menu"
+              priority={true}
             />
           </button>
         </div>
@@ -24,6 +25,7 @@ function Header() {
               width={32}
               height={32}
               alt="Logo"
+              priority={true}
             />
           </a>
         </div>
@@ -48,16 +50,18 @@ function Header() {
               width={32}
               height={32}
               alt="search"
+              priority={true}
             />
           </a>
 
-          <a className="" href="/cart">
+          <a className="" href="/bag">
             <Image
               className="w-8 h-8 object-contain"
               src="/bag-outline.svg"
               width={32}
               height={32}
               alt="cart"
+              priority={true}
             />
 
             <div className="search" />

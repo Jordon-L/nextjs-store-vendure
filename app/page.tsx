@@ -1,65 +1,18 @@
 "use client";
 
-export const dynamic = "force-dynamic";
-import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
-import { gql } from "@apollo/client";
-import ProductCard from "@/components/ProductCard";
-import Collection from "@/components/Collection";
 import Image from "next/image";
-import { CollectionDetails, ProductDetails } from "@/lib/types/Products.type";
 import Link from "next/link";
-import { useState } from "react";
-
-const query = gql`
-  query GetProducts {
-    search(input: { take: 10, groupByProduct: true, sort: { price: ASC } }) {
-      items {
-        ...ProductDetails
-      }
-    }
-  }
-`;
-
-const collectionQuery = gql`
-  query GetCollections {
-    collections(options: { take: 4, sort: { updatedAt: ASC } }) {
-      items {
-        id
-        name
-        slug
-        parent {
-          id
-          slug
-          name
-        }
-        featuredAsset {
-          id
-          preview
-        }
-      }
-    }
-  }
-`;
+import FeaturedGrid from "@/components/FeaturedGrid";
+import CollectionGrid from "@/components/CollectionGrid";
 
 export default function Home() {
-  const products = useQuery(query);
-  const collections = useQuery(collectionQuery);
-  const [collectionItems, setCollectionItems] =
-    useState<Array<CollectionDetails>>();
-
-  const errors = products.error || collections.error;
-  const loading = products.loading || collections.loading;
-
-  if (loading) return <div className="h-screen"></div>;
-  if (errors) return `Error! ${errors}`;
-
-  let collectionLength = collections.data?.collections?.items.length;
   return (
     <div className="center flex-col p-6">
       <section className="relative">
         <Image
           className="object-cover max-h-[550px]"
           src="/jo-szczepanska-9OKGEVJiTKk-unsplash.jpg"
+          sizes="100vw"
           width={1920}
           height={1280}
           priority={true}
@@ -73,7 +26,7 @@ export default function Home() {
             <div className="justify-center flex p-4 text-xl">
               <Link
                 href="/collections/all"
-                className="bg-amber-800 text-white w-fit font-bold uppercase tracking-widest p-4 rounded-full"
+                className="buttonHover bg-black text-white w-fit font-bold uppercase tracking-widest p-4 px-6 rounded-full"
               >
                 Shop All
               </Link>
@@ -84,23 +37,13 @@ export default function Home() {
 
       <section className="pt-8 py-4 w-full">
         <h2 className="text-2xl mb-4 font-semibold">Shop by Collection</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 ">
-          {collections.data?.collections?.items.map(
-            (collection: CollectionDetails) => (
-              <Collection key={collection.id} collection={{ ...collection }} />
-            )
-          )}
-        </div>
+        <CollectionGrid />
       </section>
 
       <section className="py-4 w-full">
         <h2 className="text-2xl mb-4 font-semibold">Featured</h2>
         <div className="flex flex-row items-start">
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-8">
-            {products.data?.search?.items.map((item: ProductDetails) => (
-              <ProductCard key={item.productId} item={{ ...item }} />
-            ))}
-          </div>
+          <FeaturedGrid />
         </div>
       </section>
     </div>

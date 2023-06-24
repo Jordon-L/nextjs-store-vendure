@@ -3,7 +3,7 @@
 export const dynamic = "force-dynamic";
 import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { gql } from "@apollo/client";
-import Collection from "@/components/Collection";
+import Collection from "@/components/CollectionCard";
 import { CollectionDetails } from "@/lib/types/Products.type";
 
 const collectionQuery = gql`
