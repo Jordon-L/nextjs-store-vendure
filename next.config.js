@@ -17,6 +17,8 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 module.exports = withBundleAnalyzer({
   images: {
+    loader: 'custom',
+    loaderFile: './lib/utils/ImageLoader.ts',
     remotePatterns: [
       {
         protocol: "http",

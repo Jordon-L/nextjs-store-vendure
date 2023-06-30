@@ -12,6 +12,7 @@ function Footer() {
               width={32}
               height={32}
               alt="Twitter"
+              unoptimized
             />
           </a>
           <a href="/search">
@@ -21,6 +22,7 @@ function Footer() {
               width={32}
               height={32}
               alt="Instagram"
+              unoptimized
             />
           </a>
         </div>

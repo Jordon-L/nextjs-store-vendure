@@ -23,22 +23,4 @@ export function ProductCard(props: { key: number; item: ProductDetails }) {
   );
 }
 
-export function Skeleton() {
-  //image is a 1x1 black opacity .3 square
-  return (
-    <section>
-      <Image
-        className="object-cover aspect-square"
-        src={
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk8AEAAFIATgDK/mEAAAAASUVORK5CYII="
-        }
-        width={350}
-        height={350}
-        alt={"Office Supplies"}
-      />
-      <div className="h-12"></div>
-    </section>
-  );
-}
-
 export default ProductCard;

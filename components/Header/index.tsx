@@ -13,6 +13,7 @@ function Header() {
               height={32}
               alt="menu"
               priority={true}
+              unoptimized
             />
           </button>
         </div>
@@ -26,6 +27,7 @@ function Header() {
               height={32}
               alt="Logo"
               priority={true}
+              unoptimized
             />
           </a>
         </div>
@@ -51,6 +53,7 @@ function Header() {
               height={32}
               alt="search"
               priority={true}
+              unoptimized
             />
           </a>
 
@@ -62,6 +65,7 @@ function Header() {
               height={32}
               alt="cart"
               priority={true}
+              unoptimized
             />
 
             <div className="search" />

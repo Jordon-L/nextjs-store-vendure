@@ -10,12 +10,12 @@ function Accordion(props: {title:string, children: React.ReactNode}) {
 
   return (
     <div>
-      <button className="flex w-full justify-between p-4" onClick={toggle}>
+      <button className="flex w-full justify-between" onClick={toggle}>
         <p className="uppercase">{props.title}</p>
-        <Image style={{ transform: isShowing ? "rotate(180deg)" : "rotate(0deg)" }} className="transition" src="/chevron-down-outline.svg" width={24} height={24} alt="chevron"/>
+        <Image style={{ transform: isShowing ? "rotate(180deg)" : "rotate(0deg)" }} className="transition" src="/chevron-down-outline.svg" width={24} height={24} alt="chevron" unoptimized/>
       </button>
       <div style={{display: isShowing ? "block": "none"}}>
-        <span className="flex w-full justify-between p-4">{props.children}</span>
+        <span className="flex w-full justify-between">{props.children}</span>
       </div>
     </div>
   );

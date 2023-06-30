@@ -6,6 +6,15 @@ export interface Asset {
   name: string;
   focalPoint: focalPoint
 }
+
+export interface Variant {
+  id : number
+  name : string
+  options : {code: string, name:string}
+  price: number
+  priceWithTax: number
+  sku: string
+}
 export interface focalPoint {
   x: number;
   y: number;

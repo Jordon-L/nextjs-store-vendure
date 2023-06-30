@@ -15,6 +15,9 @@ import {
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support/ssr";
 
+import { setContext } from "@apollo/client/link/context";
+const AUTH_TOKEN_KEY = "auth_token";
+
 // have a function to create a client for you
 function makeClient() {
   const httpLink = new HttpLink({
@@ -23,7 +26,20 @@ function makeClient() {
     credentials: "include",
     // you can disable result caching here if you want to
     // (this does not work if you are rendering your page with `export const dynamic = "force-static"`)
-    fetchOptions: { cache: "no-store" },
+    fetchOptions: { cache: "no-cache" },
+  });
+
+  const afterwareLink = new ApolloLink((operation, forward) => {
+    return forward(operation).map((response) => {
+      const context = operation.getContext();
+      const authHeader = context.response.headers.get("vendure-auth-token");
+      if (authHeader) {
+        // If the auth token has been returned by the Vendure
+        // server, we store it in localStorage
+        localStorage.setItem(AUTH_TOKEN_KEY, authHeader);
+      }
+      return response;
+    });
   });
 
   return new ApolloClient({
@@ -68,6 +84,33 @@ function makeClient() {
             y
           }
         }
+        fragment CartSummary on Order {
+          id
+          totalQuantity
+        }
+        fragment CartDetails on Order {
+          lines {
+            id
+            unitPrice
+            quantity
+            linePrice
+            productVariant {
+              name
+            }
+            featuredAsset {
+              preview
+            }
+          }
+          subTotal
+          shipping
+          taxSummary {
+            description
+            taxRate
+            taxTotal
+          }
+          total
+          totalWithTax
+        }
       `),
     }),
     link:
@@ -81,7 +124,22 @@ function makeClient() {
             }),
             httpLink,
           ])
-        : httpLink,
+        : ApolloLink.from([
+            setContext(() => {
+              const authToken = localStorage.getItem(AUTH_TOKEN_KEY);
+              if (authToken) {
+                // If we have stored the authToken from a previous
+                // response, we attach it to all subsequent requests.
+                return {
+                  headers: {
+                    authorization: `Bearer ${authToken}`,
+                  },
+                };
+              }
+            }),
+            afterwareLink,
+            httpLink,
+          ]),
   });
 }
 
