@@ -8,7 +8,7 @@ import CartItem from "@/components/CartItem";
 import CartSummary from "@/components/CartSummary";
 import SummaryAccordion from "@/components/SummaryAccordion";
 import ShippingForm from "@/components/ShippingForm";
-import DeliveryMethod from "@/components/DeliveryMethod";
+import { useState } from "react";
 
 const query = gql`
   query GetOrder {
@@ -20,11 +20,10 @@ const query = gql`
 
 export default function Checkout() {
   const order = useQuery(query);
-
   if (order.loading)
     return (
       <div>
-        <div className="center flex-col p-6 items-start lg:flex-row lg:space-x-4 ">
+        <div className="center flex-col p-6 items-start lg:flex-row lg:space-x-8">
           {/* Mobile Summary*/}
           <div className="w-full lg:hidden">
             <SummaryAccordion title={`Summary`} totalWithTax={0}>
@@ -42,21 +41,12 @@ export default function Checkout() {
             </SummaryAccordion>
           </div>
           <section className="pt-8 py-4 w-full flex-col items-stretch">
-            <h2 className="text-2xl mb-4 font-semibold">
-              Shipping Information
-            </h2>
-            <ShippingForm />
-            <h2 className="text-2xl my-4 font-semibold">Delivery Method</h2>
-            <DeliveryMethod />
-            <button className="border rounded-lg w-full p-4 mt-4 bg-black text-white">
-              Proceed to Payment
-            </button>
+            <ShippingForm/>
           </section>
           {/* Desktop Summary*/}
           <section className="pt-8 py-4 w-full flex-col hidden lg:block">
             {/* Summary */}
-            <div className="summary grow  ">
-              <h2 className="text-2xl mb-4 font-semibold">Summary</h2>
+            <div className="summary grow">
               <CartSummary
                 subTotal={0}
                 taxes={null}
@@ -70,7 +60,7 @@ export default function Checkout() {
     );
   return (
     <div>
-      <div className="center flex-col p-6 items-start lg:flex-row lg:space-x-4 ">
+      <div className="center flex-col p-6 items-start lg:flex-row lg:space-x-8">
         {/* Mobile Summary*/}
         <div className="w-full lg:hidden">
           <SummaryAccordion
@@ -112,19 +102,12 @@ export default function Checkout() {
         </div>
 
         <section className="pt-8 py-4 w-full flex-col items-stretch">
-          <h2 className="text-2xl mb-4 font-semibold">Shipping Information</h2>
           <ShippingForm />
-          <h2 className="text-2xl my-4 font-semibold">Delivery Method</h2>
-          <DeliveryMethod />
-          <button className="border rounded-lg w-full p-4 mt-4 bg-black text-white">
-            Proceed to Payment
-          </button>
         </section>
         {/* Desktop Summary*/}
         <section className="pt-8 py-4 w-full flex-col hidden lg:block">
           {/* Summary */}
           <div className="summary grow  ">
-            <h2 className="text-2xl mb-4 font-semibold">Summary</h2>
             {!order.data.activeOrder ? (
               <CartSummary
                 subTotal={0}

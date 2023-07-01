@@ -21,23 +21,29 @@ export default function Cart() {
   if (order.loading)
     return (
       <div>
-        <div className="center flex-col p-6 ">
-          <section className="pt-8 py-4 w-full flex flex-col lg:flex-row lg:space-x-6">
+        <div className="center flex-col p-6 items-start lg:flex-row lg:space-x-8">
+          <section className="pt-8 py-4 w-full flex-col">
             {/* Cart */}
-            <div className="bag w-3/4">
-              <h2 className="text-2xl mb-4 font-semibold">Shopping Bag</h2>
-              {/* Item 1 */}
-              <div className="h-[500px]">Empty</div>
+            <h2 className="text-2xl mb-4 font-semibold">Shopping Bag</h2>
+            {/* Item 1 */}
+            <div className="min-h-[250px] lg:min-h-[500px]">
+              <p>Empty</p>
             </div>
+          </section>
+          <section className="pt-8 py-4 w-full flex-col">
             {/* Summary */}
-            <div className="summary grow py-4">
-              <h2 className="text-2xl mb-4 font-semibold">Summary</h2>
+            <div className="summary">
               <CartSummary
                 subTotal={0}
                 taxes={null}
                 shipping={0}
                 totalWithTax={0}
               ></CartSummary>
+              <a href="/checkout">
+                <button className="buttonHover border rounded-lg w-full p-4 mt-4 bg-black text-white">
+                  Checkout
+                </button>
+              </a>
             </div>
           </section>
         </div>
@@ -45,23 +51,24 @@ export default function Cart() {
     );
   return (
     <div>
-      <div className="center flex-col p-6 ">
-        <section className="pt-8 py-4 w-full flex flex-col lg:flex-row lg:space-x-6">
+      <div className="center flex-col p-6 items-start lg:flex-row lg:space-x-8">
+        <section className="pt-8 py-4 w-full flex-col">
           {/* Cart */}
-          <div className="w-3/4">
-            <h2 className="text-2xl mb-4 font-semibold">Shopping Bag</h2>
-            {/* Item 1 */}
+          <h2 className="text-2xl mb-4 font-semibold">Shopping Bag</h2>
+          {/* Item 1 */}
+          <div className="min-h-[250px] lg:min-h-[500px]">
             {!order.data?.activeOrder ? (
-              <div className="h-[500px]">Empty</div>
+              <p>Empty</p>
             ) : (
               order.data.activeOrder?.lines.map((lines: OrderLine) => (
                 <CartItem key={lines.id} lines={{ ...lines }} />
               ))
             )}
           </div>
+        </section>
+        <section className="pt-8 py-4 w-full flex-col">
           {/* Summary */}
-          <div className="summary grow py-4">
-            <h2 className="text-2xl mb-4 font-semibold">Summary</h2>
+          <div className="summary">
             {!order.data?.activeOrder ? (
               <CartSummary
                 subTotal={0}
@@ -78,7 +85,7 @@ export default function Cart() {
               ></CartSummary>
             )}
             <a href="/checkout">
-              <button className="buttonHover rounded-full bg-black text-white p-4 font-bold uppercase tracking-widest">
+              <button className="buttonHover border rounded-lg w-full p-4 mt-4 bg-black text-white">
                 Checkout
               </button>
             </a>
