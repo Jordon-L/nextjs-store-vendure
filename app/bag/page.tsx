@@ -6,6 +6,7 @@ import Image from "next/image";
 import { OrderLine } from "@/lib/types/Cart.type";
 import CartItem from "@/components/CartItem";
 import CartSummary from "@/components/CartSummary";
+import { AiOutlineLock } from "react-icons/ai";
 
 const query = gql`
   query GetOrder {
@@ -39,17 +40,9 @@ export default function Cart() {
                 shipping={0}
                 totalWithTax={0}
               ></CartSummary>
-              <button className="buttonHover border rounded-lg w-full p-4 mt-4 bg-black text-white flex">
-                <p>Checkout</p>
-                <Image
-                  className="w-8 h-8 object-contain"
-                  src="/lock-closed-outline.svg"
-                  width={32}
-                  height={32}
-                  alt="lock"
-                  priority={true}
-                  unoptimized
-                />
+              <button className="buttonHover border rounded-lg w-full p-4 mt-4 bg-black text-white disabled opacity-80 flex">
+                <p className="grow">Checkout</p>
+
               </button>
             </div>
           </section>
@@ -99,35 +92,9 @@ export default function Cart() {
                 </button>
               </a>
             ) : (
-              <button className="buttonHover border rounded-lg w-full p-4 mt-4 bg-black text-white disabled opacity-80 flex">
-                <p className="grow">Checkout</p>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="ionicon stroke-white w-6"
-                  viewBox="0 0 512 512"
-                >
-                  <path
-                    d="M336 208v-95a80 80 0 00-160 0v95"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="32"
-                  />
-                  <rect
-                    x="96"
-                    y="208"
-                    width="320"
-                    height="272"
-                    rx="48"
-                    ry="48"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="32"
-                  />
-                </svg>
+              <button className="border rounded-lg w-full p-4 mt-4 bg-black text-white disabled opacity-70 flex cursor-not-allowed">
+                <p className="grow text-lg">Checkout</p>
+                <AiOutlineLock className="w-6 h-6"/>
               </button>
             )}
           </div>
