@@ -14,7 +14,7 @@ function CartItem(props: {lines: OrderLine}) {
         priority={true}
         alt={props.lines.productVariant.name}
       />
-      <div className="flex flex-col grow mx-6">
+      <div className="flex flex-col grow ml-6">
         {/* Item Info  */}
         <div className="flex flex-row grow justify-between">
           <div className="flex flex-col">
