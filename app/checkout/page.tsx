@@ -2,7 +2,6 @@
 
 export const dynamic = "force-dynamic";
 import { gql, useQuery } from "@apollo/client";
-import Image from "next/image";
 import { OrderLine } from "@/lib/types/Cart.type";
 import CartItem from "@/components/CartItem";
 import CartSummary from "@/components/CartSummary";
