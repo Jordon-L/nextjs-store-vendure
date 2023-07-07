@@ -13,7 +13,6 @@ import { useQuery } from "@apollo/client";
 
 function Header() {
   const numberDetails = useQuery(numberOfItemsQuery);
-  console.log(numberDetails.data);
   return (
     <header className="border-b border-zinc-700 px-6 pb-2 pt-4 lg:pt-8 lg:pb-6">
       <nav className="center">
