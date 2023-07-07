@@ -3,6 +3,10 @@ import { useEffect } from "react";
 import { StripePayments } from "@/components/Stripe";
 import { formatPrice } from "@/lib/utils/FormatPrice";
 import { METHODS } from "http";
+import {
+  setTransitionStateMutation,
+  nextOrderStatesQuery,
+} from "@/lib/graphql/checkout";
 
 const query = gql`
   query eligiblePaymentMethods {
@@ -21,21 +25,6 @@ const orderQuery = gql`
   }
 `;
 
-const mutation = gql`
-  mutation addPaymentToOrder($method: String!, $metadata: JSON!) {
-    addPaymentToOrder(input: { method: $method, metadata: $metadata }) {
-      ... on PaymentFailedError {
-        errorCode
-        message
-      }
-
-      ... on NoActiveOrderError {
-        errorCode
-        message
-      }
-    }
-  }
-`;
 
 const stripeMutation = gql`
   mutation createStripePaymentIntent {
@@ -45,7 +34,7 @@ const stripeMutation = gql`
 
 function PaymentForm(props: { orderCode: string; price: number }) {
   const payment = useSuspenseQuery<any>(query);
-  const [addPayment] = useMutation(mutation);
+  const nextOrderStates = useQuery(nextOrderStatesQuery);
   const [stripePaymentIntentResult, { data, loading, error }] =
     useMutation(stripeMutation);
   let stripePaymentIntent: string | undefined;
@@ -57,9 +46,8 @@ function PaymentForm(props: { orderCode: string; price: number }) {
     }
   });
 
-  if (data != undefined && !loading && error == undefined) {
+  if (data != undefined && !loading && error == undefined && nextOrderStates.data != undefined) {
     stripePaymentIntent = data.createStripePaymentIntent;
-    addPayment({variables: {method: 'stripe', metadata:{stripeIntent: data.createStripePaymentIntent} }})
   }
   return (
     <div className="center flex-col">

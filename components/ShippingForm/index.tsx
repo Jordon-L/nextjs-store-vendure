@@ -86,7 +86,9 @@ const setShippingMethodMutation = gql`
   }
 `;
 
-function ShippingForm(props: {setShippingPrice:  Dispatch<SetStateAction<number>>}) {
+function ShippingForm(props: {
+  setShippingPrice: Dispatch<SetStateAction<number>>;
+}) {
   const router = useRouter();
   const countries = useSuspenseQuery<any>(query);
   const shippingMethods = useQuery<any>(queryShippingMethods);
@@ -122,162 +124,155 @@ function ShippingForm(props: {setShippingPrice:  Dispatch<SetStateAction<number>
         shippingMethodId: formJson.shipping.toString(),
       },
     });
-  };
 
-  if (data != undefined && !loading && error == undefined) {
-    console.log("done");
-    console.log(data);
     router.push("/payment");
-    return null;
-  } else {
-    return (
-      <form onSubmit={onSubmit} id="form" method="post" className="space-y-4">
-        <h2 className="text-2xl mb-4 font-semibold">Shipping Information</h2>
-        <div>
-          <label htmlFor="email">Email</label>
-          <div className="input-box">
-            <input
-              id="email"
-              aria-label="email"
-              className="border border-black w-full"
-              name="email"
-              type="email"
-              required
-            />
-          </div>
+  };
+  return (
+    <form onSubmit={onSubmit} id="form" method="post" className="space-y-4">
+      <h2 className="text-2xl mb-4 font-semibold">Shipping Information</h2>
+      <div>
+        <label htmlFor="email">Email</label>
+        <div className="input-box">
+          <input
+            id="email"
+            aria-label="email"
+            className="border border-black w-full"
+            name="email"
+            type="email"
+            required
+          />
         </div>
-        <div>
-          <label htmlFor="name">Name</label>
+      </div>
+      <div>
+        <label htmlFor="name">Name</label>
+        <div className="input-box">
+          <input
+            id="name"
+            aria-label="name"
+            className="border border-black w-full"
+            name="name"
+            type="text"
+            required
+          />
+        </div>
+      </div>
+      <div>
+        <label htmlFor="address">Address</label>
+        <div className="input-box">
+          <input
+            id="address"
+            aria-label="address"
+            className="border border-black w-full"
+            name="address"
+            type="text"
+            required
+          />
+        </div>
+      </div>
+      <div className="flex flex-row justify-between space-x-4">
+        <div className="w-1/2">
+          <label htmlFor="city">City</label>
           <div className="input-box">
             <input
-              id="name"
-              aria-label="name"
+              id="city"
+              aria-label="city"
               className="border border-black w-full"
-              name="name"
+              name="city"
               type="text"
               required
             />
           </div>
         </div>
-        <div>
-          <label htmlFor="address">Address</label>
+        <div className="w-1/2">
+          <label htmlFor="country">Country</label>
+          <div className="input-box">
+            <select
+              id="country"
+              className="border border-black w-full"
+              name="country"
+              defaultValue={countries.data.availableCountries[0].code}
+            >
+              {countries.data.availableCountries.map((country: any) => (
+                <option key={country.code} value={country.code}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-row justify-between space-x-4">
+        <div className="w-1/2">
+          <label htmlFor="province">State/Province</label>
           <div className="input-box">
             <input
-              id="address"
-              aria-label="address"
+              id="province"
+              aria-label="province"
               className="border border-black w-full"
-              name="address"
+              name="province"
               type="text"
               required
             />
           </div>
         </div>
-        <div className="flex flex-row justify-between space-x-4">
-          <div className="w-1/2">
-            <label htmlFor="city">City</label>
-            <div className="input-box">
-              <input
-                id="city"
-                aria-label="city"
-                className="border border-black w-full"
-                name="city"
-                type="text"
-                required
-              />
-            </div>
+        <div className="w-1/2">
+          <label htmlFor="postalCode">Postal Code</label>
+          <div className="input-box">
+            <input
+              id="postalCode"
+              aria-label="postalCode"
+              className="border border-black w-full"
+              name="postalCode"
+              type="text"
+              required
+            />
           </div>
-          <div className="w-1/2">
-            <label htmlFor="country">Country</label>
-            <div className="input-box">
-              <select
-                id="country"
-                className="border border-black w-full"
-                name="country"
-                defaultValue={countries.data.availableCountries[0].code}
+        </div>
+      </div>
+      <div>
+        <h2 className="text-2xl my-4 font-semibold">Delivery Method</h2>
+        <div className="grid grid-rows-2 gap-4">
+          {shippingMethods.loading ? (
+            <div>Loading</div>
+          ) : (
+            shippingMethods.data?.eligibleShippingMethods.map((method: any) => (
+              <label
+                className="border-gray-300 relative bg-white border rounded-lg shadow-sm p-4 flex cursor-pointer focus:outline-none justify-between"
+                htmlFor={method.id}
+                key={method.id}
               >
-                {countries.data.availableCountries.map((country: any) => (
-                  <option key={country.code} value={country.code}>
-                    {country.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
+                <p>
+                  {method.name} {formatPrice(method.price)}
+                </p>
+                <input
+                  type="radio"
+                  id={method.id}
+                  name="shipping"
+                  value={method.id}
+                  onClick={() => {
+                    setShippingMethod({
+                      variables: {
+                        shippingMethodId: method.id,
+                      },
+                    });
+                    props.setShippingPrice(method.price);
+                  }}
+                  required
+                ></input>
+              </label>
+            ))
+          )}
         </div>
-        <div className="flex flex-row justify-between space-x-4">
-          <div className="w-1/2">
-            <label htmlFor="province">State/Province</label>
-            <div className="input-box">
-              <input
-                id="province"
-                aria-label="province"
-                className="border border-black w-full"
-                name="province"
-                type="text"
-                required
-              />
-            </div>
-          </div>
-          <div className="w-1/2">
-            <label htmlFor="postalCode">Postal Code</label>
-            <div className="input-box">
-              <input
-                id="postalCode"
-                aria-label="postalCode"
-                className="border border-black w-full"
-                name="postalCode"
-                type="text"
-                required
-              />
-            </div>
-          </div>
-        </div>
-        <div>
-          <h2 className="text-2xl my-4 font-semibold">Delivery Method</h2>
-          <div className="grid grid-rows-2 gap-4">
-            {shippingMethods.loading ? (
-              <div>Loading</div>
-            ) : (
-              shippingMethods.data?.eligibleShippingMethods.map(
-                (method: any) => (
-                  <label
-                    className="border-gray-300 relative bg-white border rounded-lg shadow-sm p-4 flex cursor-pointer focus:outline-none justify-between"
-                    htmlFor={method.id}
-                    key={method.id}
-                  >
-                    <p>{method.name} {formatPrice(method.price)}</p>
-                    <input
-                      type="radio"
-                      id={method.id}
-                      name="shipping"
-                      value={method.id}
-                      onClick={() => {
-                        
-                        setShippingMethod({
-                          variables: {
-                            shippingMethodId: method.id,
-                          },
-                        });
-                        props.setShippingPrice(method.price)
-                      }}
-                      required
-                    ></input>
-                  </label>
-                )
-              )
-            )}
-          </div>
-        </div>
-        <hr />
-        <button
-          type="submit"
-          className="border rounded-lg w-full p-4 mt-4 bg-black text-white"
-        >
-          Proceed to Payment
-        </button>
-      </form>
-    );
-  }
+      </div>
+      <hr />
+      <button
+        type="submit"
+        className="border rounded-lg w-full p-4 mt-4 bg-black text-white"
+      >
+        Proceed to Payment
+      </button>
+    </form>
+  );
 }
 
 export default ShippingForm;
