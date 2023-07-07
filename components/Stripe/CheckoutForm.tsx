@@ -1,4 +1,3 @@
-import { gql, useQuery } from "@apollo/client";
 import {
   useStripe,
   useElements,
@@ -26,7 +25,6 @@ export const CheckoutForm = ({ orderCode, price }: { orderCode: string, price:st
         return_url: location.origin + `/checkout/confirmation/${orderCode}`,
       },
     });
-
 
     if (result.error) {
       // Show error to your customer (for example, payment details incomplete)

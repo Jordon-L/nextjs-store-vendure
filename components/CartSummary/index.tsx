@@ -1,5 +1,4 @@
 import { OrderLine, TaxSummary } from "@/lib/types/Cart.type";
-import Image from "next/image";
 import { formatPrice } from "@/lib/utils/FormatPrice";
 
 function CartSummary(props: {

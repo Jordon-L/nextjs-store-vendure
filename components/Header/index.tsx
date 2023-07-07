@@ -1,20 +1,25 @@
+"use client";
+
+export const dynamic = "force-dynamic";
+
 import Image from "next/image";
+import {
+  AiOutlineMenu,
+  AiOutlineSearch,
+  AiOutlineShopping,
+} from "react-icons/ai";
+import { numberOfItemsQuery } from "@/lib/graphql/header";
+import { useQuery } from "@apollo/client";
 
 function Header() {
+  const numberDetails = useQuery(numberOfItemsQuery);
+  console.log(numberDetails.data);
   return (
     <header className="border-b border-zinc-700 px-6 pb-2 pt-4 lg:pt-8 lg:pb-6">
       <nav className="center">
         <div className="w-full h-full lg:hidden">
           <button>
-            <Image
-              className=" w-8 h-8 object-contain"
-              src="/menu-outline.svg"
-              width={32}
-              height={32}
-              alt="menu"
-              priority={true}
-              unoptimized
-            />
+            <AiOutlineMenu className=" w-8 h-8 object-contain" />
           </button>
         </div>
 
@@ -36,40 +41,34 @@ function Header() {
           <a href="/" className="hover:text-gray-700 hover:no-underline mx-6">
             Home
           </a>
-          <a href="/collections/all" className="hover:text-gray-700 hover:no-underline mx-6">
+          <a
+            href="/collections/all"
+            className="hover:text-gray-700 hover:no-underline mx-6"
+          >
             Shop
           </a>
-          <a href="/contact" className="hover:text-gray-700 hover:no-underline mx-6">
+          <a
+            href="/contact"
+            className="hover:text-gray-700 hover:no-underline mx-6"
+          >
             Contact
           </a>
         </nav>
 
         <div className="flex w-full h-full justify-end">
           <a className="mr-12" href="/search">
-            <Image
-              className=" w-8 h-8 object-contain"
-              src="/search-outline.svg"
-              width={32}
-              height={32}
-              alt="search"
-              priority={true}
-              unoptimized
-            />
+            <AiOutlineSearch className=" w-8 h-8 object-contain" />
           </a>
 
-          <a className="" href="/bag">
-            <Image
-              className="w-8 h-8 object-contain"
-              src="/bag-outline.svg"
-              width={32}
-              height={32}
-              alt="cart"
-              priority={true}
-              unoptimized
-            />
-
-            <div className="search" />
-            <div />
+          <a className="absolute" href="/bag">
+            <AiOutlineShopping className=" w-8 h-8 object-contain" />
+            {numberDetails.data?.activeOrder ? (
+              <div className="absolute top-[-10px] right-[-10px] w-6 h-6 font-bold text-white rounded-full bg-red-600 flex items-center justify-center">
+                <p>{numberDetails.data?.activeOrder?.totalQuantity} </p>
+              </div>
+            ) : (
+              <></>
+            )}
           </a>
         </div>
       </nav>

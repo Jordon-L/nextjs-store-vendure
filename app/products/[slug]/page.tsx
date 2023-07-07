@@ -7,6 +7,8 @@ import Image from "next/image";
 import { Asset, Variant } from "@/lib/types/Products.type";
 import { formatPrice } from "@/lib/utils/FormatPrice";
 import { useEffect, useState } from "react";
+import { AiOutlineCheck, AiOutlineLoading3Quarters } from "react-icons/ai";
+import { numberOfItemsQuery } from "@/lib/graphql/header";
 
 interface ProductQuery {
   product: Product;
@@ -72,9 +74,9 @@ const addToCartMutation = gql`
 `;
 
 export default function Page({ params }: { params: { slug: string } }) {
-
   const [quantityAdd, setQuantityAdd] = useState(1);
-
+  const [addingToCart, setAddingToCart] = useState(false);
+  const [displaySuccessful, setDisplaySuccessful] = useState(false);
   const productDetails = useSuspenseQuery<ProductQuery>(query, {
     variables: { productSlug: params.slug },
   });
@@ -87,11 +89,29 @@ export default function Page({ params }: { params: { slug: string } }) {
   let breadcrumbs = collection[collection.length - 1].breadcrumbs;
   let product = productDetails.data?.product;
   let selected = product.variants[0];
-
-  const [addToCart, {data, loading, error}] = useMutation(addToCartMutation, {
-    variables: { productVariantId: selected.id, quantity: quantityAdd},
+  const [addToCart, { data, loading, error }] = useMutation(addToCartMutation, {
+    variables: { productVariantId: selected.id, quantity: quantityAdd },
   });
 
+  const handleOnClick = () => {
+    setAddingToCart(true);
+    setTimeout(() => {
+      if (loading != undefined) {
+        setDisplaySuccessful(true);
+        setTimeout(() => {
+          setAddingToCart(false);
+        }, 1000);
+      }
+    }, 1000);
+    addToCart({
+      refetchQueries: [
+        numberOfItemsQuery, // DocumentNode object parsed with gql
+        "numberOfItems", // Query name
+      ],
+    });
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <div className="center flex-col p-6">
@@ -147,10 +167,28 @@ export default function Page({ params }: { params: { slug: string } }) {
             <p className="text-2xl">{product.name}</p>
             <p className="text-lg">{formatPrice(selected.price)}</p>
             <button
-              onClick={() => {addToCart()}}
-              className="buttonHover border-solid border-2 border-black p-4"
+              onClick={handleOnClick}
+              className="buttonHover border-solid border-2 border-black p-4 h-16"
             >
-              Add To Cart
+              {error ? (
+                <p className="text-xl">Error has occured</p>
+              ) : addingToCart ? (
+                <div className="flex flex-row justify-center space-x-4">
+                  {displaySuccessful ? (
+                    <>
+                      <p className="text-xl">Added</p>
+                      <AiOutlineCheck className="w-6 h-6" />
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-xl">Adding</p>
+                      <AiOutlineLoading3Quarters className="animate-spin w-6 h-6" />
+                    </>
+                  )}
+                </div>
+              ) : (
+                <p className="text-xl">Add to Cart</p>
+              )}
             </button>
             <p>{product.description}</p>
           </section>
