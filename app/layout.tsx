@@ -20,6 +20,7 @@ export default function RootLayout({
       <body className={`${inter.className} flex flex-col h-full`}>
         <ApolloWrapper>
           <Header />
+          <div id="cart-modal"></div>
           <div className="flex-[1_0_auto]">{children}</div>
         </ApolloWrapper>
         <div className="shrink-0">

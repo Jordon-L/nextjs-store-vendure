@@ -3,6 +3,7 @@
 export const dynamic = "force-dynamic";
 
 import Image from "next/image";
+import Cart from "@/components/Cart";
 import {
   AiOutlineMenu,
   AiOutlineSearch,
@@ -10,9 +11,13 @@ import {
 } from "react-icons/ai";
 import { numberOfItemsQuery } from "@/lib/graphql/header";
 import { useQuery } from "@apollo/client";
+import { useState } from "react";
+import CartPortal from "../CartPortal";
 
 function Header() {
   const numberDetails = useQuery(numberOfItemsQuery);
+  const [showCart, setShowCart] = useState(false);
+
   return (
     <header className="border-b border-zinc-700 px-6 pb-2 pt-4 lg:pt-8 lg:pb-6">
       <nav className="center">
@@ -59,18 +64,26 @@ function Header() {
             <AiOutlineSearch className=" w-8 h-8 object-contain" />
           </a>
 
-          <a className="absolute" href="/bag">
+          <button
+            className="absolute"
+            onClick={() => {
+              setShowCart(true);
+            }}
+          >
             <AiOutlineShopping className=" w-8 h-8 object-contain" />
-            {numberDetails.data?.activeOrder ? (
+            {(numberDetails.data?.activeOrder && numberDetails.data?.activeOrder?.totalQuantity > 0) ? (
               <div className="absolute top-[-10px] right-[-10px] w-6 h-6 font-bold text-white rounded-full bg-red-600 flex items-center justify-center">
                 <p>{numberDetails.data?.activeOrder?.totalQuantity} </p>
               </div>
             ) : (
               <></>
             )}
-          </a>
+          </button>
         </div>
       </nav>
+      <CartPortal isOpen={showCart} handleClose={() => setShowCart(false)}>
+        <Cart/>
+      </CartPortal>
     </header>
   );
 }

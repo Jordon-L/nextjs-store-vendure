@@ -1,13 +1,17 @@
 import { OrderLine } from "@/lib/types/Cart.type";
 import Image from "next/image";
 import { formatPrice } from "@/lib/utils/FormatPrice";
+import { AiOutlineDelete } from "react-icons/ai";
+import { getOrderQuery, removeItemMutation } from "@/lib/graphql/bag";
+import { numberOfItemsQuery } from "@/lib/graphql/header";
+import { useMutation } from "@apollo/client";
 
-function CartItem(props: {lines: OrderLine}) {
-
+function CartItem(props: { lines: OrderLine }) {
+  const [removeItem] = useMutation(removeItemMutation);
   return (
     <div className="flex flex-row py-6 border-b border-zinc-200">
       <Image
-        className="object-cover aspect-square"
+        className="w-1/3 h-1/3 max-w-[200px] max-h-[200px] object-cover aspect-square"
         src={props.lines.featuredAsset.preview}
         width={200}
         height={200}
@@ -21,20 +25,20 @@ function CartItem(props: {lines: OrderLine}) {
             <span className="pb-2">{props.lines.productVariant.name}</span>
             <span className="text-gray-400 pb-2">Color</span>
             <span className="text-gray-400 pb-2">Size</span>
-            <span className="text-gray-400 pb-2">Quantity: {props.lines.quantity}</span>
+            <span className="text-gray-400 pb-2">
+              Quantity: {props.lines.quantity}
+            </span>
           </div>
           <span>{formatPrice(props.lines.linePrice)}</span>
         </div>
 
         {/*Remove Item*/}
         <div>
-          <Image
-            className=""
-            src="/trash-outline.svg"
-            width={32}
-            height={32}
-            alt="remove item"
-            unoptimized
+          <AiOutlineDelete
+            className="w-8 h-8 cursor-pointer"
+            onClick={() =>
+              removeItem({variables:{id: props.lines.id}, refetchQueries: [getOrderQuery, numberOfItemsQuery] })
+            }
           />
         </div>
       </div>

@@ -8,18 +8,19 @@ import CartSummary from "@/components/CartSummary";
 import { AiOutlineLock } from "react-icons/ai";
 import { getOrderQuery } from "@/lib/graphql/bag";
 
-export default function Cart() {
+function Cart() {
   const order = useQuery(getOrderQuery);
 
-  if (order.loading)
+  if (order.loading || order.data.activeOrder?.lines.length <= 0)
     return (
       <div>
-        <div className="center flex-col p-6 items-start lg:flex-row lg:space-x-8">
-          <section className="pt-8 py-4 w-full flex-col">
+        <div className="center flex-col px-6 items-start">
+          <section className="w-full flex-col">
             {/* Cart */}
             <h2 className="text-2xl mb-4 font-semibold">Shopping Bag</h2>
+            <hr className="my-4"></hr>
             {/* Item 1 */}
-            <div className="min-h-[250px] lg:min-h-[500px]">
+            <div className="h-[300px] lg:h-[600px] overflow-y-auto" >
               <p>Empty</p>
             </div>
           </section>
@@ -32,8 +33,9 @@ export default function Cart() {
                 shipping={0}
                 totalWithTax={0}
               ></CartSummary>
-              <button className="buttonHover border rounded-lg w-full p-4 mt-4 bg-black text-white disabled opacity-80 flex">
-                <p className="grow">Checkout</p>
+              <button className="border rounded-lg w-full p-4 mt-4 bg-black text-white disabled opacity-70 flex cursor-not-allowed">
+                <p className="grow text-lg">Checkout</p>
+                <AiOutlineLock className="w-6 h-6" />
               </button>
             </div>
           </section>
@@ -42,12 +44,13 @@ export default function Cart() {
     );
   return (
     <div>
-      <div className="center flex-col p-6 items-start lg:flex-row lg:space-x-8">
-        <section className="pt-8 py-4 w-full flex-col">
+      <div className="center flex-col items-start">
+        <section className="w-full flex-col">
           {/* Cart */}
-          <h2 className="text-2xl mb-4 font-semibold">Shopping Bag</h2>
+          <h2 className="text-2xl mb-4 px-6 font-semibold">Shopping Bag</h2>
+          <hr className="my-4"></hr>
           {/* Item 1 */}
-          <div className="min-h-[250px] lg:min-h-[500px]">
+          <div className="h-[300px] lg:h-[600px] px-6 overflow-y-auto">
             {!order.data?.activeOrder ? (
               <p>Empty</p>
             ) : (
@@ -57,21 +60,21 @@ export default function Cart() {
             )}
           </div>
         </section>
-        <section className="pt-8 py-4 w-full flex-col">
+        <section className="px-6 pt-8 py-4 w-full flex-col">
           {/* Summary */}
           <div className="summary">
             {!order.data?.activeOrder ? (
               <CartSummary
                 subTotal={0}
                 taxes={null}
-                shipping={0}
+                shipping={null}
                 totalWithTax={0}
               ></CartSummary>
             ) : (
               <CartSummary
                 subTotal={order.data.activeOrder?.subTotal}
-                taxes={order.data.activeOrder.taxSummary}
-                shipping={order.data.activeOrder.shipping}
+                taxes={null}
+                shipping={null}
                 totalWithTax={order.data.activeOrder.totalWithTax}
               ></CartSummary>
             )}
@@ -94,3 +97,5 @@ export default function Cart() {
     </div>
   );
 }
+
+export default Cart;

@@ -22,6 +22,7 @@ export default function Checkout() {
   const router = useRouter();
   const order = useQuery(query);
   const [shippingPrice, setShippingPrice] = useState(0);
+  console.log(shippingPrice)
   const [totalPrice, setTotalPrice] = useState(0);
   useEffect(() => {
     if (!order.loading && order?.data?.activeOrder == undefined) {
@@ -50,7 +51,7 @@ export default function Checkout() {
             </SummaryAccordion>
           </div>
           <section className="pt-8 py-4 w-full flex-col items-stretch">
-            <ShippingForm setShippingPrice={setShippingPrice}/>
+            <ShippingForm setShippingPrice={setShippingPrice} />
           </section>
           {/* Desktop Summary*/}
           <section className="pt-8 py-4 w-full flex-col hidden lg:block">
@@ -112,7 +113,7 @@ export default function Checkout() {
           </div>
 
           <section className="pt-8 py-4 w-full flex-col items-stretch">
-            <ShippingForm setShippingPrice={setShippingPrice}/>
+            <ShippingForm setShippingPrice={setShippingPrice} />
           </section>
           {/* Desktop Summary*/}
           <section className="pt-8 py-4 w-full flex-col hidden lg:block">
