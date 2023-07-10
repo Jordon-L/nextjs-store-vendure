@@ -3,13 +3,18 @@ import Image from "next/image";
 import { formatPrice } from "@/lib/utils/FormatPrice";
 import { AiOutlineDelete } from "react-icons/ai";
 import { getOrderQuery, removeItemMutation } from "@/lib/graphql/bag";
-import { numberOfItemsQuery } from "@/lib/graphql/header";
 import { useMutation } from "@apollo/client";
 
-function CartItem(props: { lines: OrderLine }) {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
+  lines: OrderLine
+}
+
+
+
+function CartItem(props: Props) {
   const [removeItem] = useMutation(removeItemMutation);
   return (
-    <div className="flex flex-row py-6 border-b border-zinc-200">
+    <div className={`flex flex-row ${props.className || ""}`}>
       <Image
         className="w-1/3 h-1/3 max-w-[200px] max-h-[200px] object-cover aspect-square"
         src={props.lines.featuredAsset.preview}
@@ -37,7 +42,7 @@ function CartItem(props: { lines: OrderLine }) {
           <AiOutlineDelete
             className="w-8 h-8 cursor-pointer"
             onClick={() =>
-              removeItem({variables:{id: props.lines.id}, refetchQueries: [getOrderQuery, numberOfItemsQuery] })
+              removeItem({variables:{id: props.lines.id}, refetchQueries: [getOrderQuery] })
             }
           />
         </div>

@@ -49,7 +49,6 @@ export default function Payment() {
   const params = useSearchParams();
   const router = useRouter();
   const order = useQuery(orderQuery);
-  console.log(order.data)
   return (
     <div className="center flex-col p-6">
       <p className="text-2xl mb-4 font-semibold">Confirmation</p>

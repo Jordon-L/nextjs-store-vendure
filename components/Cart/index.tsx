@@ -7,30 +7,31 @@ import CartItem from "@/components/CartItem";
 import CartSummary from "@/components/CartSummary";
 import { AiOutlineLock } from "react-icons/ai";
 import { getOrderQuery } from "@/lib/graphql/bag";
+import CartList from "../CartList";
 
 function Cart() {
   const order = useQuery(getOrderQuery);
-
-  if (order.loading || order.data.activeOrder?.lines.length <= 0)
+  if (order.loading || order.data?.activeOrder?.lines.length <= 0)
     return (
       <div>
-        <div className="center flex-col px-6 items-start">
+        <div className="center flex-col items-start">
           <section className="w-full flex-col">
             {/* Cart */}
-            <h2 className="text-2xl mb-4 font-semibold">Shopping Bag</h2>
+            <h2 className="text-2xl mb-4 px-6 font-semibold">Shopping Bag</h2>
             <hr className="my-4"></hr>
             {/* Item 1 */}
-            <div className="h-[300px] lg:h-[600px] overflow-y-auto" >
+            <div className="h-[300px] lg:h-[600px] px-6 overflow-y-auto">
               <p>Empty</p>
             </div>
+            <hr className="my-4"></hr>
           </section>
-          <section className="pt-8 py-4 w-full flex-col">
+          <section className="px-6 py-4 w-full flex-col">
             {/* Summary */}
             <div className="summary">
               <CartSummary
                 subTotal={0}
                 taxes={null}
-                shipping={0}
+                shipping={null}
                 totalWithTax={0}
               ></CartSummary>
               <button className="border rounded-lg w-full p-4 mt-4 bg-black text-white disabled opacity-70 flex cursor-not-allowed">
@@ -54,13 +55,13 @@ function Cart() {
             {!order.data?.activeOrder ? (
               <p>Empty</p>
             ) : (
-              order.data.activeOrder?.lines.map((lines: OrderLine) => (
-                <CartItem key={lines.id} lines={{ ...lines }} />
-              ))
+              <CartList activeOrder={order.data?.activeOrder} />
             )}
           </div>
+          <hr className="my-4"></hr>
         </section>
-        <section className="px-6 pt-8 py-4 w-full flex-col">
+
+        <section className="px-6 py-4 w-full flex-col">
           {/* Summary */}
           <div className="summary">
             {!order.data?.activeOrder ? (
@@ -78,8 +79,8 @@ function Cart() {
                 totalWithTax={order.data.activeOrder.totalWithTax}
               ></CartSummary>
             )}
-            {order.data.activeOrder &&
-            order.data.activeOrder.lines.length > 0 ? (
+            {order.data?.activeOrder &&
+            order.data?.activeOrder.lines.length > 0 ? (
               <a href="/checkout">
                 <button className="buttonHover border rounded-lg w-full p-4 mt-4 bg-black text-white">
                   <p>Checkout</p>

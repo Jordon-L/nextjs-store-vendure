@@ -10,7 +10,6 @@ function CartSummary(props: {
   const taxes = props.taxes?.reduce((sum, tax) => sum + tax.taxTotal, 0) || 0;
   return (
     <div className="flex flex-col">
-      <h2 className="text-2xl mb-4 font-semibold">Summary</h2>
       {/*Subtotal*/}
       <span className="flex flex-row justify-between pb-2">
         <p>Subtotal</p>

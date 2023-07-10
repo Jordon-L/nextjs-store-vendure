@@ -9,21 +9,13 @@ import SummaryAccordion from "@/components/SummaryAccordion";
 import ShippingForm from "@/components/ShippingForm";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import CartList from "@/components/CartList";
+import { getOrderQuery } from "@/lib/graphql/bag";
 
-const query = gql`
-  query GetOrder {
-    activeOrder {
-      ...CartDetails
-    }
-  }
-`;
 
 export default function Checkout() {
   const router = useRouter();
-  const order = useQuery(query);
-  const [shippingPrice, setShippingPrice] = useState(0);
-  console.log(shippingPrice)
-  const [totalPrice, setTotalPrice] = useState(0);
+  const order = useQuery(getOrderQuery);
   useEffect(() => {
     if (!order.loading && order?.data?.activeOrder == undefined) {
       router.push("/");
@@ -51,7 +43,7 @@ export default function Checkout() {
             </SummaryAccordion>
           </div>
           <section className="pt-8 py-4 w-full flex-col items-stretch">
-            <ShippingForm setShippingPrice={setShippingPrice} />
+            <ShippingForm/>
           </section>
           {/* Desktop Summary*/}
           <section className="pt-8 py-4 w-full flex-col hidden lg:block">
@@ -92,7 +84,7 @@ export default function Checkout() {
                     <CartSummary
                       subTotal={order.data.activeOrder?.subTotal}
                       taxes={order.data.activeOrder.taxSummary}
-                      shipping={shippingPrice}
+                      shipping={order.data.activeOrder.shipping}
                       totalWithTax={order.data.activeOrder.totalWithTax}
                     ></CartSummary>
                   )}
@@ -103,9 +95,7 @@ export default function Checkout() {
                   {!order.data?.activeOrder ? (
                     <div className="h-[500px]">Empty</div>
                   ) : (
-                    order.data.activeOrder?.lines.map((lines: OrderLine) => (
-                      <CartItem key={lines.id} lines={{ ...lines }} />
-                    ))
+                    <CartList activeOrder={order.data?.activeOrder} />
                   )}
                 </div>
               </section>
@@ -113,7 +103,7 @@ export default function Checkout() {
           </div>
 
           <section className="pt-8 py-4 w-full flex-col items-stretch">
-            <ShippingForm setShippingPrice={setShippingPrice} />
+            <ShippingForm/>
           </section>
           {/* Desktop Summary*/}
           <section className="pt-8 py-4 w-full flex-col hidden lg:block">
@@ -130,7 +120,7 @@ export default function Checkout() {
                 <CartSummary
                   subTotal={order.data.activeOrder?.subTotal}
                   taxes={order.data.activeOrder.taxSummary}
-                  shipping={shippingPrice}
+                  shipping={order.data.activeOrder.shipping}
                   totalWithTax={order.data.activeOrder.totalWithTax}
                 ></CartSummary>
               )}
@@ -141,9 +131,7 @@ export default function Checkout() {
               {!order.data.activeOrder ? (
                 <div className="h-[500px]">Empty</div>
               ) : (
-                order.data.activeOrder?.lines.map((lines: OrderLine) => (
-                  <CartItem key={lines.id} lines={{ ...lines }} />
-                ))
+                <CartList activeOrder={order.data?.activeOrder} />
               )}
             </div>
           </section>

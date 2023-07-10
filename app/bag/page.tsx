@@ -7,6 +7,7 @@ import CartItem from "@/components/CartItem";
 import CartSummary from "@/components/CartSummary";
 import { AiOutlineLock } from "react-icons/ai";
 import { getOrderQuery } from "@/lib/graphql/bag";
+import CartList from "@/components/CartList";
 
 export default function Cart() {
   const order = useQuery(getOrderQuery);
@@ -51,14 +52,13 @@ export default function Cart() {
             {!order.data?.activeOrder ? (
               <p>Empty</p>
             ) : (
-              order.data.activeOrder?.lines.map((lines: OrderLine) => (
-                <CartItem key={lines.id} lines={{ ...lines }} />
-              ))
+              <CartList activeOrder={order.data?.activeOrder}/>
             )}
           </div>
         </section>
         <section className="pt-8 py-4 w-full flex-col">
           {/* Summary */}
+          <h2 className="text-2xl mb-4 font-semibold">Summary</h2>
           <div className="summary">
             {!order.data?.activeOrder ? (
               <CartSummary
@@ -70,8 +70,8 @@ export default function Cart() {
             ) : (
               <CartSummary
                 subTotal={order.data.activeOrder?.subTotal}
-                taxes={order.data.activeOrder.taxSummary}
-                shipping={order.data.activeOrder.shipping}
+                taxes={null}
+                shipping={null}
                 totalWithTax={order.data.activeOrder.totalWithTax}
               ></CartSummary>
             )}

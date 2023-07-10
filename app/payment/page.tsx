@@ -85,7 +85,8 @@ export default function Payment() {
           {/* Desktop Summary*/}
           <section className="pt-8 py-4 w-full flex-col hidden lg:block">
             {/* Summary */}
-            <div className="summary grow  ">
+            <h2 className="text-2xl mb-4 font-semibold">Summary</h2>
+            <div className="summary grow">
               {!order.data.activeOrder ? (
                 <CartSummary
                   subTotal={0}

@@ -5,6 +5,7 @@ export const getOrderQuery = gql`
   query getOrder {
     activeOrder {
       ...CartDetails
+      totalQuantity
     }
   }
 `;

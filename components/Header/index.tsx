@@ -9,15 +9,26 @@ import {
   AiOutlineSearch,
   AiOutlineShopping,
 } from "react-icons/ai";
-import { numberOfItemsQuery } from "@/lib/graphql/header";
+import { getOrderQuery } from "@/lib/graphql/bag";
 import { useQuery } from "@apollo/client";
 import { useState } from "react";
-import CartPortal from "../CartPortal";
+import CartSidebarPortal from "@/components/CartSidebarPortal";
+import { useSidebar } from "@/lib/context/SidebarProvider";
 
 function Header() {
-  const numberDetails = useQuery(numberOfItemsQuery);
-  const [showCart, setShowCart] = useState(false);
+  const order = useQuery(getOrderQuery);
+  const [quantity, setQuantityAdd] = useState(null);
+  const { isOpen, openSidebar, closeSidebar } = useSidebar();
 
+  if (
+    order.data?.activeOrder != null &&
+    order.data?.activeOrder?.totalQuantity != quantity 
+  ) {
+    if(quantity != null){
+      openSidebar();
+    }
+    setQuantityAdd(order.data?.activeOrder?.totalQuantity);
+  }
   return (
     <header className="border-b border-zinc-700 px-6 pb-2 pt-4 lg:pt-8 lg:pb-6">
       <nav className="center">
@@ -64,16 +75,12 @@ function Header() {
             <AiOutlineSearch className=" w-8 h-8 object-contain" />
           </a>
 
-          <button
-            className="absolute"
-            onClick={() => {
-              setShowCart(true);
-            }}
-          >
+          <button className="absolute" onClick={openSidebar}>
             <AiOutlineShopping className=" w-8 h-8 object-contain" />
-            {(numberDetails.data?.activeOrder && numberDetails.data?.activeOrder?.totalQuantity > 0) ? (
+            {quantity &&
+            quantity > 0 ? (
               <div className="absolute top-[-10px] right-[-10px] w-6 h-6 font-bold text-white rounded-full bg-red-600 flex items-center justify-center">
-                <p>{numberDetails.data?.activeOrder?.totalQuantity} </p>
+                <p>{quantity} </p>
               </div>
             ) : (
               <></>
@@ -81,9 +88,9 @@ function Header() {
           </button>
         </div>
       </nav>
-      <CartPortal isOpen={showCart} handleClose={() => setShowCart(false)}>
-        <Cart/>
-      </CartPortal>
+      <CartSidebarPortal isOpen={isOpen} handleClose={closeSidebar}>
+        <Cart />
+      </CartSidebarPortal>
     </header>
   );
 }

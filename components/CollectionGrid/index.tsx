@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { gql } from "@apollo/client";
 import { CollectionDetails } from "@/lib/types/Products.type";
-import { CollectionCard} from "@/components/CollectionCard";
+import { CollectionCard } from "@/components/CollectionCard";
 
 interface ColletionQuery {
   collections: Items;
@@ -36,25 +36,34 @@ const query = gql`
 `;
 
 export default function CollectionGrid() {
-  const collectionQuery = useSuspenseQuery<ColletionQuery>(query);
+  try {
+    const collectionQuery = useSuspenseQuery<ColletionQuery>(query);
 
-  const errors = collectionQuery.error;
+    const errors = collectionQuery.error;
 
-  if (errors) return <div></div>;
+    if (errors) return <div></div>;
 
-  return (
-    <>
-      <h2 className="text-2xl mb-4 font-semibold">Shop by Collection</h2>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 ">
-        {collectionQuery.data?.collections?.items.map(
-          (collection: CollectionDetails) => (
-            <CollectionCard
-              key={collection.id}
-              collection={{ ...collection }}
-            />
-          )
-        )}
-      </div>
-    </>
-  );
+    return (
+      <>
+        <h2 className="text-2xl mb-4 font-semibold">Shop by Collection</h2>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 ">
+          {collectionQuery.data?.collections?.items.map(
+            (collection: CollectionDetails) => (
+              <CollectionCard
+                key={collection.id}
+                collection={{ ...collection }}
+              />
+            )
+          )}
+        </div>
+      </>
+    );
+  } catch (error) {
+    return (
+      <>
+        <h2 className="text-2xl mb-4 font-semibold">Shop by Collection</h2>
+        <p>Error has Occured</p>
+      </>
+    );
+  }
 }

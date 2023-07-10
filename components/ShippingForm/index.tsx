@@ -1,3 +1,4 @@
+import { getOrderQuery } from "@/lib/graphql/bag";
 import { formatPrice } from "@/lib/utils/FormatPrice";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
@@ -86,9 +87,7 @@ const setShippingMethodMutation = gql`
   }
 `;
 
-function ShippingForm(props: {
-  setShippingPrice: Dispatch<SetStateAction<number>>;
-}) {
+function ShippingForm() {
   const router = useRouter();
   const countries = useSuspenseQuery<any>(query);
   const shippingMethods = useQuery<any>(queryShippingMethods);
@@ -101,7 +100,6 @@ function ShippingForm(props: {
     const form = event.target;
     const formData = new FormData(form);
     const formJson = Object.fromEntries(formData.entries());
-    console.log(loading);
     await setShippingInfo({
       variables: {
         fullName: formJson.name.toString(),
@@ -254,8 +252,8 @@ function ShippingForm(props: {
                       variables: {
                         shippingMethodId: method.id,
                       },
+                      refetchQueries: [getOrderQuery],
                     });
-                    props.setShippingPrice(method.price);
                   }}
                   required
                 ></input>

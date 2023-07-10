@@ -2,8 +2,6 @@ import { ReactNode, useEffect, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 import ReactPortal from "../ReactPortal";
 import "./modalStyles.css";
-import { numberOfItemsQuery } from "@/lib/graphql/header";
-import { useQuery } from "@apollo/client";
 import { AiOutlineClose } from "react-icons/ai";
 // export default function CartPortal() {
 //const numberDetails = useQuery(numberOfItemsQuery);
@@ -30,7 +28,7 @@ type CartModalProps = {
   handleClose: any;
 };
 
-function CartPortal({ children, isOpen, handleClose }: CartModalProps) {
+function CartSidebarPortal({ children, isOpen, handleClose }: CartModalProps) {
   const nodeRef = useRef(null);
   const nodeRef2 = useRef(null);
   useEffect(() => {
@@ -83,4 +81,4 @@ function CartPortal({ children, isOpen, handleClose }: CartModalProps) {
     </ReactPortal>
   );
 }
-export default CartPortal;
+export default CartSidebarPortal;

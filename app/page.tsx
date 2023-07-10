@@ -38,9 +38,8 @@ export default function Home() {
           </div>
         </span>
       </section>
-
       <section className="pt-8 py-4 w-full">
-        <CollectionGrid />
+        <CollectionGrid/>
       </section>
 
       <section className="py-4 w-full">
