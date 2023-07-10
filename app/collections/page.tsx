@@ -28,20 +28,18 @@ const collectionQuery = gql`
 `;
 
 export default function Collections() {
-  const collections = useQuery(collectionQuery);
+  const {data, loading, error} = useQuery(collectionQuery);
 
-  const errors = collections.error;
-  const loading = collections.loading;
+  console.log(error)
+  if (error) return <div>Error has Occured</div>;
 
-  if (loading) return <div className="h-screen"></div>;
-  if (errors) return `Error! ${errors}`;
   return (
     <div>
       <div className="center flex-col p-6">
         <section className="pt-8 py-4">
           <h2 className="text-2xl mb-4 font-semibold">Shop by Collection</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {collections.data?.collections?.items.map(
+            {data?.collections?.items.map(
               (collection: CollectionDetails) => (
                 <Collection
                   key={collection.id}

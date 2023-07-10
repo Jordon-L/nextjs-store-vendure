@@ -44,3 +44,12 @@ export interface CollectionDetails {
   parent: ParentCollection;
   featuredAsset: Asset;
 }
+
+export interface SearchQuery {
+  search: SearchItems;
+}
+
+export interface SearchItems {
+  items: ProductDetails[];
+  totalItems: number
+}

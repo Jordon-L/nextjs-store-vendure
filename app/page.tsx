@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import CollectionGrid from "@/components/CollectionGrid";
+import { ErrorBoundary } from "react-error-boundary";
 const FeaturedGrid = dynamic(() => import("@/components/FeaturedGrid"));
 
 export default function Home() {
@@ -38,8 +39,9 @@ export default function Home() {
           </div>
         </span>
       </section>
+
       <section className="pt-8 py-4 w-full">
-        <CollectionGrid/>
+        <CollectionGrid />
       </section>
 
       <section className="py-4 w-full">

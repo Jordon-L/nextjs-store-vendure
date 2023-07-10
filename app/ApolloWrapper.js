@@ -17,9 +17,25 @@ import {
 
 import { setContext } from "@apollo/client/link/context";
 const AUTH_TOKEN_KEY = "auth_token";
+import { onError } from "@apollo/client/link/error";
 
 // have a function to create a client for you
 function makeClient() {
+  const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+      graphQLErrors.map(({ message, locations, path }) => {
+        // Here you may display a message to indicate graphql error
+        // You may use 'sweetalert', 'ngx-toastr' or any of your preference
+        console.log(
+          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+        );
+      });
+    }
+    if (networkError) {
+      // Here you may display a message to indicate network error
+      console.log(`[Network error]: ${networkError}`);
+    }
+  });
   const httpLink = new HttpLink({
     // this needs to be an absolute url, as relative urls cannot be used in SSR
     uri: "http://localhost:8080/shop-api",
@@ -45,6 +61,9 @@ function makeClient() {
   return new ApolloClient({
     // use the `NextSSRInMemoryCache`, not the normal `InMemoryCache`
     connectToDevTools: true,
+    query: {
+      errorPolicy: 'all',
+    },
     cache: new NextSSRInMemoryCache({
       fragments: createFragmentRegistry(gql`
         fragment ProductDetails on SearchResult {
@@ -122,6 +141,7 @@ function makeClient() {
             new SSRMultipartLink({
               stripDefer: true,
             }),
+            errorLink,
             httpLink,
           ])
         : ApolloLink.from([
@@ -137,6 +157,7 @@ function makeClient() {
                 };
               }
             }),
+            errorLink,
             afterwareLink,
             httpLink,
           ]),

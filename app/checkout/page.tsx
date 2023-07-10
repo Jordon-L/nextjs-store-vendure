@@ -15,6 +15,7 @@ import { getOrderQuery } from "@/lib/graphql/bag";
 
 export default function Checkout() {
   const router = useRouter();
+
   const order = useQuery(getOrderQuery);
   useEffect(() => {
     if (!order.loading && order?.data?.activeOrder == undefined) {
