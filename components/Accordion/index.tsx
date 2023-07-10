@@ -10,7 +10,7 @@ function Accordion(props: {title:string, children: React.ReactNode}) {
 
   return (
     <div>
-      <button className="flex w-full justify-between" onClick={toggle}>
+      <button className="flex w-full justify-between text-lg" onClick={toggle}>
         <p className="uppercase">{props.title}</p>
         <Image style={{ transform: isShowing ? "rotate(180deg)" : "rotate(0deg)" }} className="transition" src="/chevron-down-outline.svg" width={24} height={24} alt="chevron" unoptimized/>
       </button>

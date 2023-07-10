@@ -28,30 +28,22 @@ const query = gql`
   }
 `;
 export default function Featured() {
-  try {
-    const products = useSuspenseQuery<ProductQuery>(query, {
-      variables: { numOfItems: numOfItems },
-    });
+  const products = useSuspenseQuery<ProductQuery>(query, {
+    variables: { numOfItems: numOfItems },
+  });
 
-    const errors = products.error;
+  const errors = products.error;
 
-    if (errors) return <div></div>;
+  if (errors) return <div></div>;
 
-    return (
-      <>
-        <h2 className="text-2xl mb-4 font-semibold">Featured</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-          {products.data?.search?.items.map((item: ProductDetails) => (
-            <ProductCard key={item.productId} item={{ ...item }} />
-          ))}
-        </div>
-      </>
-    );
-  } catch (error) {
-    return (
-      <>
-        <h2 className="text-2xl mb-4 font-semibold">Featured</h2>
-      </>
-    );
-  }
+  return (
+    <>
+      <h2 className="text-2xl mb-4 font-semibold">Featured</h2>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+        {products.data?.search?.items.map((item: ProductDetails) => (
+          <ProductCard key={item.productId} item={{ ...item }} />
+        ))}
+      </div>
+    </>
+  );
 }
