@@ -32,7 +32,12 @@ export default function Payment() {
   const router = useRouter();
   const order = useQuery(orderQuery);
 
-  if (order?.data?.activeOrder != undefined && !Object.values(order?.data?.activeOrder.shippingAddress).some((e:any) => e == undefined)) {
+  if (
+    order?.data?.activeOrder != undefined &&
+    !Object.values(order?.data?.activeOrder.shippingAddress).some(
+      (e: any) => e == undefined
+    )
+  ) {
     return (
       <div>
         <div className="center flex-col p-6 items-start lg:flex-row lg:space-x-8">
@@ -68,7 +73,11 @@ export default function Payment() {
                     <div className="h-[500px]">Empty</div>
                   ) : (
                     order.data.activeOrder?.lines.map((lines: OrderLine) => (
-                      <CartItem key={lines.id} lines={{ ...lines }} />
+                      <CartItem
+                        key={lines.id}
+                        lines={{ ...lines }}
+                        canDelete={false}
+                      />
                     ))
                   )}
                 </div>
@@ -110,7 +119,7 @@ export default function Payment() {
                 <div className="h-[500px]">Empty</div>
               ) : (
                 order.data.activeOrder?.lines.map((lines: OrderLine) => (
-                  <CartItem key={lines.id} lines={{ ...lines }} />
+                  <CartItem key={lines.id} lines={{ ...lines }} canDelete={false}/>
                 ))
               )}
             </div>

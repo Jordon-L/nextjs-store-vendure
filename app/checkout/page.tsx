@@ -2,8 +2,6 @@
 
 export const dynamic = "force-dynamic";
 import { gql, useQuery } from "@apollo/client";
-import { OrderLine } from "@/lib/types/Cart.type";
-import CartItem from "@/components/CartItem";
 import CartSummary from "@/components/CartSummary";
 import SummaryAccordion from "@/components/SummaryAccordion";
 import ShippingForm from "@/components/ShippingForm";
@@ -96,7 +94,7 @@ export default function Checkout() {
                   {!order.data?.activeOrder ? (
                     <div className="h-[500px]">Empty</div>
                   ) : (
-                    <CartList activeOrder={order.data?.activeOrder} />
+                    <CartList activeOrder={order.data?.activeOrder} canDelete={false}/>
                   )}
                 </div>
               </section>
@@ -132,7 +130,7 @@ export default function Checkout() {
               {!order.data.activeOrder ? (
                 <div className="h-[500px]">Empty</div>
               ) : (
-                <CartList activeOrder={order.data?.activeOrder} />
+                <CartList activeOrder={order.data?.activeOrder} canDelete={false}/>
               )}
             </div>
           </section>

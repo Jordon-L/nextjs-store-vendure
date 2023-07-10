@@ -55,7 +55,7 @@ function Cart() {
             {!order.data?.activeOrder ? (
               <p>Empty</p>
             ) : (
-              <CartList activeOrder={order.data?.activeOrder} />
+              <CartList activeOrder={order.data?.activeOrder} canDelete={true}/>
             )}
           </div>
           <hr className="my-4"></hr>

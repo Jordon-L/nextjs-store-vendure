@@ -6,10 +6,9 @@ import { getOrderQuery, removeItemMutation } from "@/lib/graphql/bag";
 import { useMutation } from "@apollo/client";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  lines: OrderLine
+  lines: OrderLine;
+  canDelete: boolean;
 }
-
-
 
 function CartItem(props: Props) {
   const [removeItem] = useMutation(removeItemMutation);
@@ -38,14 +37,19 @@ function CartItem(props: Props) {
         </div>
 
         {/*Remove Item*/}
-        <div>
-          <AiOutlineDelete
-            className="w-8 h-8 cursor-pointer"
-            onClick={() =>
-              removeItem({variables:{id: props.lines.id}, refetchQueries: [getOrderQuery] })
-            }
-          />
-        </div>
+        {props.canDelete && (
+          <div>
+            <AiOutlineDelete
+              className="w-8 h-8 cursor-pointer"
+              onClick={() =>
+                removeItem({
+                  variables: { id: props.lines.id },
+                  refetchQueries: [getOrderQuery],
+                })
+              }
+            />
+          </div>
+        )}
       </div>
     </div>
   );

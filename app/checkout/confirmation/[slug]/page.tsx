@@ -53,6 +53,7 @@ export default function Confirmation({ params }: { params: { slug: string } }) {
   return (
     <div className="center flex-col p-6">
       <p className="text-2xl mb-4 font-semibold">Confirmation</p>
+      <p>State: {order.data?.orderByCode.state}</p>
       <section className="pt-8 py-4 w-full flex-col hidden lg:block">
         {/* Summary */}
         <div className="summary grow  ">
@@ -78,7 +79,7 @@ export default function Confirmation({ params }: { params: { slug: string } }) {
           {!order.data?.orderByCode ? (
             <div className="h-[500px]">Empty</div>
           ) : (
-            <CartList activeOrder={order.data?.orderByCode} />
+            <CartList activeOrder={order.data?.orderByCode} canDelete={false}/>
           )}
         </div>
       </section>
