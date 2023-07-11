@@ -3,25 +3,7 @@ import { CSSTransition } from "react-transition-group";
 import ReactPortal from "../ReactPortal";
 import "./modalStyles.css";
 import { AiOutlineClose } from "react-icons/ai";
-// export default function CartPortal() {
-//const numberDetails = useQuery(numberOfItemsQuery);
-//   const modal = document.getElementById("cart-modal") || document.body;
-//   const [showModal, setShowModal] = useState(false);
-//   return (
-//     <ReactPortal wrapperId="dedicated-container-id-if-any">
-//       <button className="absolute" onClick={() => setShowModal(!showModal)}>
-//         <AiOutlineShopping className=" w-8 h-8 object-contain" />
-//         {numberDetails.data?.activeOrder ? (
-//           <div className="absolute top-[-10px] right-[-10px] w-6 h-6 font-bold text-white rounded-full bg-red-600 flex items-center justify-center">
-//             <p>{numberDetails.data?.activeOrder?.totalQuantity} </p>
-//           </div>
-//         ) : (
-//           <></>
-//         )}
-//       </button>
-//     </ReactPortal>
-//   );
-// }
+
 type CartModalProps = {
   children: ReactNode;
   isOpen: boolean;

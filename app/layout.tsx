@@ -21,11 +21,7 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <body className={`${inter.className} flex flex-col h-full`}>
         <ApolloWrapper>
-          <SidebarProvider>
-            <Header />
-            <div id="cart-modal"></div>
-            <div className="flex-[1_0_auto]">{children}</div>
-          </SidebarProvider>
+          <div className="flex-[1_0_auto]">{children}</div>
         </ApolloWrapper>
         <div className="shrink-0">
           <Footer />

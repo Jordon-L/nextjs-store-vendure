@@ -91,6 +91,7 @@ function makeClient() {
           price
           priceWithTax
           sku
+          stockLevel
         }
         fragment Asset on Asset {
           id

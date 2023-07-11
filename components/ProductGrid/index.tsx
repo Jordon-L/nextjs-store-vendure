@@ -2,67 +2,40 @@
 
 export const dynamic = "force-dynamic";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { ProductCard } from "@/components/ProductCard";
 import Accordion from "@/components/Accordion";
-import { ProductDetails, SearchQuery } from "@/lib/types/Products.type";
+import {
+  CollectionDetails,
+  ProductDetails,
+  SearchQuery,
+  CollectionsResults,
+} from "@/lib/types/Products.type";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { useEffect, useState } from "react";
+import { getProductsQuery } from "@/lib/graphql/product";
+import Breadcrumbs from "../Breadcrumbs";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 const numOfItems = 12;
 
-const query = gql`
-  query GetProducts(
-    $collectionSlug: String!
-    $numOfItems: Int!
-    $skip: Int!
-    $sort: SearchResultSortParameter
-    $inStock: Boolean
-  ) {
-    search(
-      input: {
-        take: $numOfItems
-        skip: $skip
-        groupByProduct: true
-        collectionSlug: $collectionSlug
-        sort: $sort
-        inStock: $inStock
-      }
-    ) {
-      items {
-        ...ProductDetails
-      }
-      totalItems
-    }
-  }
-`;
-
 export default function ProductGrid(props: { slug: string }) {
+  const searchParams = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [inStockFilter, setInStockFilter] = useState(false);
   const [optionsState, setOptionState] = useState("name-ASC");
+  const [searchTerm, setSearchTerm] = useState(
+    searchParams.get("search") || ""
+  );
+  const [slug, setSlug] = useState("");
   const [sortParam, setSortParam] = useState<{
     name: string | null;
     price: string | null;
   }>({ name: "ASC", price: null });
-  let slug = props.slug;
-  if (props.slug === "all") {
-    slug = "";
-  }
-  useEffect(() => {
-    setCurrentPage(1);
-    if (optionsState.includes("name")) {
-      let result = optionsState.split("-");
-      setSortParam({ name: result[1], price: null });
-      
-    } else if (optionsState.includes("price")) {
-      let result = optionsState.split("-");
-      setSortParam({ name: null, price: result[1] });
-    }
-  }, [optionsState, inStockFilter]);
 
-  const products = useSuspenseQuery<SearchQuery>(query, {
+  const products = useQuery<SearchQuery>(getProductsQuery, {
     variables: {
+      term: searchTerm,
       collectionSlug: slug,
       numOfItems: numOfItems,
       skip: (currentPage - 1) * numOfItems,
@@ -71,12 +44,34 @@ export default function ProductGrid(props: { slug: string }) {
     },
   });
 
-  const errors = products.error;
+  useEffect(() => {
+    setSearchTerm(searchParams.get("search") || "");
+    if (props.slug === "all") {
+      setSlug("");
+    } else {
+      setSlug(props.slug);
+    }
+    setCurrentPage(1);
+    if (optionsState.includes("name")) {
+      let result = optionsState.split("-");
+      setSortParam({ name: result[1], price: null });
+    } else if (optionsState.includes("price")) {
+      let result = optionsState.split("-");
+      setSortParam({ name: null, price: result[1] });
+    }
+  }, [optionsState, inStockFilter, props.slug, searchParams]);
 
+  const errors = products.error;
+  const loading = products.loading;
+  if (loading) return <div></div>;
   if (errors) return <div>Error</div>; //`Error! ${errors}`;
   const pageButtons: JSX.Element[] = [];
+  const totalItems = products.data?.search.totalItems || 0;
+  const totalPages = Math.ceil(totalItems / numOfItems);
 
-  const totalPages = Math.ceil(products.data.search.totalItems / numOfItems);
+  if (totalItems === 0)
+    return <div>{`We couldn't find a match for \"${searchTerm}\"`}</div>;
+
   for (let i = 1; i <= totalPages; i++) {
     if (i == currentPage) {
       pageButtons.push(
@@ -104,8 +99,35 @@ export default function ProductGrid(props: { slug: string }) {
       );
     }
   }
+
+  let collections = products.data?.search?.collections;
+  let breadcrumbs = null;
+  if (collections != null) {
+    let currentCollection = collections.find((e: CollectionsResults) => {
+      return e.collection.slug === props.slug;
+    });
+    breadcrumbs = currentCollection?.collection?.breadcrumbs;
+  }
   return (
     <section className="w-full">
+      <div>
+        <div>
+          {breadcrumbs ? (
+            <Breadcrumbs breadcrumbs={breadcrumbs} />
+          ) : (
+            <Breadcrumbs
+              breadcrumbs={[{ id: "1", name: "__root_collection__", slug: "" }]}
+            />
+          )}
+        </div>
+        {breadcrumbs ? (
+          <p className="flex justify-center text-2xl">
+            {breadcrumbs[breadcrumbs.length - 1].name}
+          </p>
+        ) : (
+          <p className="flex justify-center text-2xl">Shop All</p>
+        )}
+      </div>
       <span className="flex justify-end mb-6">
         <select
           className="p-2"
@@ -142,13 +164,18 @@ export default function ProductGrid(props: { slug: string }) {
               <ProductCard key={item.productId} item={{ ...item }} />
             ))}
           </div>
-
           <div className="p-4 flex justify-center space-x-4 text-lg">
-            <button className="w-12 aspect-square bg-black text-white flex justify-center items-center">
+            <button
+              aria-label="Previous Page"
+              className="w-12 aspect-square bg-black text-white flex justify-center items-center"
+            >
               <AiOutlineLeft className="w-6 h-6" />
             </button>
             {pageButtons}
-            <button className="w-12 aspect-square bg-black text-white flex justify-center items-center">
+            <button
+              aria-label="Next Page"
+              className="w-12 aspect-square bg-black text-white flex justify-center items-center"
+            >
               <AiOutlineRight className="w-6 h-6" />
             </button>
           </div>

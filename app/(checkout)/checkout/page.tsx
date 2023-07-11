@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 import CartList from "@/components/CartList";
 import { getOrderQuery } from "@/lib/graphql/bag";
 
-
 export default function Checkout() {
   const router = useRouter();
 
@@ -42,7 +41,7 @@ export default function Checkout() {
             </SummaryAccordion>
           </div>
           <section className="pt-8 py-4 w-full flex-col items-stretch">
-            <ShippingForm/>
+            <ShippingForm />
           </section>
           {/* Desktop Summary*/}
           <section className="pt-8 py-4 w-full flex-col hidden lg:block">
@@ -94,7 +93,10 @@ export default function Checkout() {
                   {!order.data?.activeOrder ? (
                     <div className="h-[500px]">Empty</div>
                   ) : (
-                    <CartList activeOrder={order.data?.activeOrder} canDelete={false}/>
+                    <CartList
+                      activeOrder={order.data?.activeOrder}
+                      canDelete={false}
+                    />
                   )}
                 </div>
               </section>
@@ -102,7 +104,7 @@ export default function Checkout() {
           </div>
 
           <section className="pt-8 py-4 w-full flex-col items-stretch">
-            <ShippingForm/>
+            <ShippingForm />
           </section>
           {/* Desktop Summary*/}
           <section className="pt-8 py-4 w-full flex-col hidden lg:block">
@@ -130,7 +132,10 @@ export default function Checkout() {
               {!order.data.activeOrder ? (
                 <div className="h-[500px]">Empty</div>
               ) : (
-                <CartList activeOrder={order.data?.activeOrder} canDelete={false}/>
+                <CartList
+                  activeOrder={order.data?.activeOrder}
+                  canDelete={false}
+                />
               )}
             </div>
           </section>

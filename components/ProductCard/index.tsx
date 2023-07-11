@@ -7,6 +7,9 @@ export function ProductCard(props: { key: number; item: ProductDetails }) {
   return (
     <section>
       <Link href={`/products/${props.item.slug}`} prefetch={false}>
+        {props.item.inStock ? null : (
+          <div className="absolute px-4 bg-yellow-300">Out of stock</div>
+        )}
         <Image
           className="object-cover aspect-square"
           src={`${props.item.productAsset.preview}?w=350&h=350`}

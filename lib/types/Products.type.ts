@@ -14,6 +14,7 @@ export interface Variant {
   price: number
   priceWithTax: number
   sku: string
+  stockLevel: string
 }
 export interface focalPoint {
   x: number;
@@ -32,10 +33,13 @@ export interface ProductDetails {
   price: PriceRange;
 }
 
+
+
 export interface ParentCollection {
   id: number;
   slug: string;
   name: string;
+
 }
 export interface CollectionDetails {
   id: number;
@@ -43,6 +47,7 @@ export interface CollectionDetails {
   slug: string;
   parent: ParentCollection;
   featuredAsset: Asset;
+  breadcrumbs: Breadcrumb[];
 }
 
 export interface SearchQuery {
@@ -52,4 +57,15 @@ export interface SearchQuery {
 export interface SearchItems {
   items: ProductDetails[];
   totalItems: number
+  collections: CollectionsResults[];
+}
+
+export interface CollectionsResults {
+  collection: CollectionDetails
+}
+
+export interface Breadcrumb {
+  id: string;
+  name: string;
+  slug: string;
 }
