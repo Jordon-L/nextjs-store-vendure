@@ -5,35 +5,12 @@ import CartList from "@/components/CartList";
 import CartSummary from "@/components/CartSummary";
 import { gql, useQuery } from "@apollo/client";
 
-const query = gql`
-  query eligiblePaymentMethods {
-    eligiblePaymentMethods {
-      id
-      code
-    }
-  }
-`;
 
 const orderQuery = gql`
   query order($code: String!) {
     orderByCode(code: $code) {
       ...CartDetails
       state
-    }
-  }
-`;
-const mutation = gql`
-  mutation addPaymentToOrder($method: String!, $metadata: JSON!) {
-    addPaymentToOrder(input: { method: $method, metadata: $metadata }) {
-      ... on PaymentFailedError {
-        errorCode
-        message
-      }
-
-      ... on NoActiveOrderError {
-        errorCode
-        message
-      }
     }
   }
 `;
