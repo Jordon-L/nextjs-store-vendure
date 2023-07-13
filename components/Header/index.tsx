@@ -12,7 +12,7 @@ import {
 } from "react-icons/ai";
 import { getOrderQuery } from "@/lib/graphql/bag";
 import { useQuery } from "@apollo/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CartSidebarPortal from "@/components/CartSidebarPortal";
 import { useSidebar } from "@/lib/context/SidebarProvider";
 import { useSearchBar } from "@/lib/context/SearchBarProvider";
@@ -22,20 +22,21 @@ function Header() {
   const order = useQuery(getOrderQuery);
   const [quantity, setQuantityAdd] = useState(null);
   const { isOpen, openSidebar, closeSidebar } = useSidebar();
-  const {
-    searchIsOpen,
-    openSearchBar,
-    closeSearchBar,
-  } = useSearchBar();
-  if (
-    order.data?.activeOrder != null &&
-    order.data?.activeOrder?.totalQuantity != quantity
-  ) {
-    if (quantity != null) {
-      openSidebar();
+  const { searchIsOpen, openSearchBar, closeSearchBar } = useSearchBar();
+
+  useEffect(() => {
+    if (
+      order.data?.activeOrder != null &&
+      order.data?.activeOrder?.totalQuantity != quantity
+    ) {
+      console.log(order.previousData)
+      setQuantityAdd(order.data?.activeOrder?.totalQuantity);
+      if (order.previousData != null) {
+        openSidebar();
+      }
     }
-    setQuantityAdd(order.data?.activeOrder?.totalQuantity);
-  }
+  }, [openSidebar, order, quantity]);
+
   return (
     <>
       <header className="border-b border-zinc-700 px-6 pb-2 pt-4 lg:pt-8 lg:pb-6">
@@ -50,7 +51,7 @@ function Header() {
             <a className="flex items-center" href="/">
               <Image
                 className="w-8 h-8 object-contain"
-                src="/github.svg"
+                src="/Office-Llama.svg"
                 width={32}
                 height={32}
                 alt="Logo"
@@ -79,11 +80,19 @@ function Header() {
           </nav>
 
           <div className="flex w-full h-full justify-end items-center">
-            <button aria-label="Search" className="absolute flex mr-12" onClick={openSearchBar}>
+            <button
+              aria-label="Search"
+              className="absolute flex mr-12"
+              onClick={openSearchBar}
+            >
               <AiOutlineSearch className="w-8 h-8 object-contain" />
             </button>
 
-            <button aria-label="Shopping Cart"  className="absolute" onClick={openSidebar}>
+            <button
+              aria-label="Shopping Cart"
+              className="absolute"
+              onClick={openSidebar}
+            >
               <AiOutlineShopping className="w-8 h-8 object-contain" />
               {quantity && quantity > 0 ? (
                 <div className="absolute top-[-10px] right-[-10px] w-6 h-6 font-bold text-white rounded-full bg-red-600 flex items-center justify-center">
@@ -99,7 +108,6 @@ function Header() {
         <CartSidebarPortal isOpen={isOpen} handleClose={closeSidebar}>
           <Cart />
         </CartSidebarPortal>
-        
       </header>
     </>
   );

@@ -25,7 +25,7 @@ export default function Home() {
         <span className="text-4xl sm:text-5xl w-full h-full absolute top-0 bg-black/[0.3]">
           <div className="flex flex-col h-full justify-center p-4">
             <p className="font-bold text-center text-white tracking-widest p-4 z-10">
-              Welcome to Office Llama
+              Welcome to Office Target
             </p>
             <div className="justify-center flex p-4 text-xl">
               <Link
