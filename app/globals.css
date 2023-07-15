@@ -4,6 +4,7 @@
 
 
 @layer components {
+
   .center {
     @apply flex items-center max-w-screen-2xl mx-auto;
   }

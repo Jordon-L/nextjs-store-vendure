@@ -1,0 +1,39 @@
+.modal-menu{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  transition: all 0.5s ease-in-out;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.modal-menu-enter-done {
+  opacity: 1;
+  pointer-events: auto;
+}
+.modal-menu-exit {
+  opacity: 0;
+}
+
+.modal-menu-content {
+  position: absolute;
+  overflow: auto;
+  height: 100%;
+  width: 200px;
+  right: -200px;
+  transition: all 0.3s ease-in-out;
+  background-color: white;
+}
+.modal-menu-content-enter-done {
+  transform: translateX(-200px);
+}
+
+.modal-menu-content-exit-active {
+  transform: translateX(200px);
+}

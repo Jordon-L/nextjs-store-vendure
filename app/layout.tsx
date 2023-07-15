@@ -18,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full">
-      <body className={`${inter.className} flex flex-col h-full`}>
+    <html lang="en" id="html-root" className="h-full">
+      <body className={`${inter.className} flex flex-col`}>
         <ApolloWrapper>
           <div className="flex-[1_0_auto]">{children}</div>
         </ApolloWrapper>
