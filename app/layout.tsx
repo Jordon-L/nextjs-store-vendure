@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" id="html-root" className="h-full">
-      <body className={`${inter.className} flex flex-col h-full`}>
+      <body className={`${inter.className} flex flex-col`}>
         <ApolloWrapper>
           <div className="flex-[1_0_auto]">{children}</div>
         </ApolloWrapper>
