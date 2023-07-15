@@ -100,6 +100,18 @@ export default function ProductGrid(props: { slug: string }) {
     }
   }
 
+  const goToNextPage = () => {
+    if(currentPage+1 <= totalPages) {
+      setCurrentPage(currentPage+1);
+    }
+  }
+
+  const goToPrevPage = () => {
+    if(currentPage-1 > 0) {
+      setCurrentPage(currentPage-1);
+    }
+  }
+
   let collections = products.data?.search?.collections;
   let breadcrumbs = null;
   if (collections != null) {
@@ -168,13 +180,15 @@ export default function ProductGrid(props: { slug: string }) {
             <button
               aria-label="Previous Page"
               className="w-12 aspect-square bg-black text-white flex justify-center items-center"
+              onClick={goToPrevPage}
             >
-              <AiOutlineLeft className="w-6 h-6" />
+              <AiOutlineLeft className="w-6 h-6"/>
             </button>
             {pageButtons}
             <button
               aria-label="Next Page"
               className="w-12 aspect-square bg-black text-white flex justify-center items-center"
+              onClick={goToNextPage}
             >
               <AiOutlineRight className="w-6 h-6" />
             </button>
