@@ -1,7 +1,7 @@
 "use client";
 
 export const dynamic = "force-dynamic";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import CartSummary from "@/components/CartSummary";
 import SummaryAccordion from "@/components/SummaryAccordion";
 import ShippingForm from "@/components/ShippingForm";

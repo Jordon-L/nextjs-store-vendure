@@ -8,7 +8,6 @@ import {
   AiOutlineMenu,
   AiOutlineSearch,
   AiOutlineShopping,
-  AiOutlineClose,
 } from "react-icons/ai";
 import { getOrderQuery } from "@/lib/graphql/bag";
 import { useQuery } from "@apollo/client";

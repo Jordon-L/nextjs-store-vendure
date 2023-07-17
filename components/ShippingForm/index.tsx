@@ -3,7 +3,6 @@ import { formatPrice } from "@/lib/utils/FormatPrice";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction, useState } from "react";
 
 const query = gql`
   query GetCountries {

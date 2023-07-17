@@ -1,12 +1,10 @@
 "use client";
 
 export const dynamic = "force-dynamic";
-import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { ProductCard } from "@/components/ProductCard";
 import Accordion from "@/components/Accordion";
 import {
-  CollectionDetails,
   ProductDetails,
   SearchQuery,
   CollectionsResults,
@@ -15,7 +13,7 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { getProductsQuery } from "@/lib/graphql/product";
 import Breadcrumbs from "../Breadcrumbs";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const numOfItems = 12;
 

@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactPortal from "../ReactPortal";
 import { CSSTransition } from "react-transition-group";
 import "./modalStyles.css";

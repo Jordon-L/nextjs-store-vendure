@@ -1,8 +1,8 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import ReactPortal from "../ReactPortal";
 import { CSSTransition } from "react-transition-group";
 import "./modalStyles.css";
-import { AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
 
 type MobileMenuProps = {
   isOpen: boolean;

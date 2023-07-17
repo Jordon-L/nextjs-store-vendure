@@ -2,8 +2,6 @@
 
 export const dynamic = "force-dynamic";
 import { useQuery } from "@apollo/client";
-import { OrderLine } from "@/lib/types/Cart.type";
-import CartItem from "@/components/CartItem";
 import CartSummary from "@/components/CartSummary";
 import { AiOutlineLock } from "react-icons/ai";
 import { getOrderQuery } from "@/lib/graphql/bag";

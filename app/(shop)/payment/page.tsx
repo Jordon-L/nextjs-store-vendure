@@ -6,9 +6,8 @@ import CartSummary from "@/components/CartSummary";
 import PaymentForm from "@/components/PaymentForm";
 import SummaryAccordion from "@/components/SummaryAccordion";
 import { OrderLine } from "@/lib/types/Cart.type";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
 
 const orderQuery = gql`
   query order {

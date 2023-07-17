@@ -2,9 +2,7 @@ import { gql, useMutation, useQuery, useSuspenseQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { StripePayments } from "@/components/Stripe";
 import { formatPrice } from "@/lib/utils/FormatPrice";
-import { METHODS } from "http";
 import {
-  setTransitionStateMutation,
   nextOrderStatesQuery,
 } from "@/lib/graphql/checkout";
 
@@ -12,14 +10,6 @@ const query = gql`
   query eligiblePaymentMethods {
     eligiblePaymentMethods {
       id
-      code
-    }
-  }
-`;
-
-const orderQuery = gql`
-  query order {
-    activeOrder {
       code
     }
   }
