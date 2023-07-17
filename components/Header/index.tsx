@@ -54,7 +54,7 @@ function Header() {
             <a className="flex items-center" href="/">
               <Image
                 className="w-8 h-8 object-contain"
-                src="/Office-Llama.svg"
+                src="/Office-Target.svg"
                 width={32}
                 height={32}
                 alt="Logo"

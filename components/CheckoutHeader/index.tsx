@@ -9,7 +9,7 @@ function Header() {
           <a className="flex items-center" href="/">
             <Image
               className="w-8 h-8 object-contain"
-              src="/github.svg"
+              src="/Office-Target.svg"
               width={32}
               height={32}
               alt="Logo"
@@ -19,7 +19,7 @@ function Header() {
           </a>
         </div>
 
-        <div className="flex w-full h-full justify-end">
+        <div className="flex w-full h-full justify-end items-center">
           <a className="absolute" href="/bag">
             <AiOutlineShopping className=" w-8 h-8 object-contain" />
           </a>
