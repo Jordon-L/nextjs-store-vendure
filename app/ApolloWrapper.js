@@ -128,6 +128,7 @@ function makeClient() {
             taxRate
             taxTotal
           }
+          code
           total
           totalWithTax
         }
