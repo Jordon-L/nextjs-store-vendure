@@ -1,7 +1,8 @@
-import { useState } from "react"
+import { useState } from "react";
 import Image from "next/image";
+import { AiOutlineDown } from "react-icons/ai";
 
-function Accordion(props: {title:string, children: React.ReactNode}) {
+function Accordion(props: { title: string; children: React.ReactNode }) {
   const [isShowing, setIsShowing] = useState(false);
 
   const toggle = () => {
@@ -12,9 +13,12 @@ function Accordion(props: {title:string, children: React.ReactNode}) {
     <div>
       <button className="flex w-full justify-between text-lg" onClick={toggle}>
         <p className="uppercase">{props.title}</p>
-        <Image style={{ transform: isShowing ? "rotate(180deg)" : "rotate(0deg)" }} className="transition" src="/chevron-down-outline.svg" width={24} height={24} alt="chevron" unoptimized/>
+        <AiOutlineDown
+          style={{ transform: isShowing ? "rotate(180deg)" : "rotate(0deg)" }}
+          className="transition w-6 h-6 object-contain"
+        />
       </button>
-      <div style={{display: isShowing ? "block": "none"}}>
+      <div style={{ display: isShowing ? "block" : "none" }}>
         <span className="flex w-full justify-between">{props.children}</span>
       </div>
     </div>
